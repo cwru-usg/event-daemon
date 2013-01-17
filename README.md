@@ -29,9 +29,9 @@ The following are the goals of this application:
      * Email 1: 2 weeks prior
      * Email 2: 1 day prior
      * Email 3: 1 week after
-   These emails will ensure that student organizations
-   are aware of the USG finance procedure surrounding being reimbursed for
-   their event.
+
+   These emails will ensure that student organizations are aware of the USG
+   finance procedure surrounding being reimbursed for their event.
 3. USG finance team members should see a list of all emails that have been
    sent, for accountability purposes.
 
