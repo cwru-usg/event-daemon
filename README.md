@@ -19,7 +19,8 @@ organization's [SpartanLink](http://spartanlink.case.edu) finance page.
 
 Goals of the Application
 ---------
-The following are the goals of this application.
+The following are the goals of this application:
+
 1. USG finance team members should see a list the events that are occurring
    this semester.
 2. Automatic emails should be sent to student organization executive boards
