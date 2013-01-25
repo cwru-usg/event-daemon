@@ -1,0 +1,4 @@
+Upload CSV from CollegiateLink:
+=form_tag(import_events_url, :method => :post, :multipart => true) do
+  =file_field :import, :csv
+  =button_tag 'Submit'

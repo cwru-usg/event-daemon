@@ -5,6 +5,13 @@ UsgEventDaemon::Application.routes.draw do
   match '/login' => 'users#login', :as => 'login'
   match '/logout' => 'users#logout', :as => 'logout'
 
+  resources :events do
+    collection do
+      get 'import'
+      post 'import', :action => 'do_import'
+    end
+  end
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action
