@@ -4,6 +4,8 @@ gem 'rails', '3.2.5'
 gem 'haml'
 gem 'sass'
 
+gem 'collegiatelink'
+
 gem 'rubycas-client'
 
 gem 'sqlite3'
