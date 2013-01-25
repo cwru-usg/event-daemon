@@ -4,6 +4,8 @@ gem 'rails', '3.2.5'
 gem 'haml'
 gem 'sass'
 
+gem 'rubycas-client'
+
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 

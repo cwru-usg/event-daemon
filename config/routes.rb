@@ -2,6 +2,9 @@ UsgEventDaemon::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
+  match '/login' => 'users#login', :as => 'login'
+  match '/logout' => 'users#logout', :as => 'logout'
+
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

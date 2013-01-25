@@ -13,8 +13,10 @@
             %ul
               %li
                 = link_to 'Home', root_path
-              %li
-                %a{:href => "http://usg.case.edu/node/79"} Log In
+              - if logged_in?
+                %li= link_to 'Log Out', logout_path
+              - else
+                %li= link_to 'Log In', login_path
       #container.logo
         #logo
           %a{:href => "http://usg.case.edu/"}
@@ -23,6 +25,8 @@
             %a{:href => "http://usg.case.edu"} Undergraduate Student Government
       #container
         #content.page
+          - if logged_in?
+            Hello, #{current_user}!
       .body-container-push
     %footer#footer
       #container
