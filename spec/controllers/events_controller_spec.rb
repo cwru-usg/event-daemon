@@ -5,8 +5,9 @@ TIME_FORMAT = '%-H:%M %p'
 
 describe EventsController do
   context 'the do_import action' do
-    let(:event1) { FactoryGirl.build(:event) }
-    let(:event2) { FactoryGirl.build(:event) }
+    let!(:org) { FactoryGirl.create(:organization) }
+    let!(:event1) { FactoryGirl.build(:event, :organization => org) }
+    let!(:event2) { FactoryGirl.build(:event, :organization => org) }
 
     let(:csv_data) { 
       [
@@ -23,6 +24,7 @@ describe EventsController do
           'End Time',
           'Event Type',
           'Event Title',
+          'Organization',
         ].join(','),
 
         # Data Row 1
@@ -34,6 +36,7 @@ describe EventsController do
           event1.ends.strftime(TIME_FORMAT),
           'Public',
           event1.title,
+          org.name,
         ].join(','),
 
         # Data Row 2
@@ -45,6 +48,7 @@ describe EventsController do
           event2.ends.strftime(TIME_FORMAT),
           'Public',
           event2.title,
+          org.name,
         ].join(','),
       ].join("\n")
     }
@@ -62,16 +66,25 @@ describe EventsController do
     end
 
     it 'assigns the collegiatelink id to the events' do
-      Event.where(:collegiatelink_id => event1.id).should be_present
+      Event.where(:collegiatelink_id => event1.collegiatelink_id).
+        should be_present
     end
 
     it 'assigns the start and end date to the events' do
-      Event.where(:collegiatelink_id => event1.id).first.starts.should == event1.starts
-      Event.where(:collegiatelink_id => event2.id).first.ends.should == event2.ends
+      Event.where(:collegiatelink_id => event1.collegiatelink_id).first.
+        starts.should == event1.starts
+      Event.where(:collegiatelink_id => event2.collegiatelink_id).first.
+        ends.should == event2.ends
     end
 
     it 'assigns the title to the events' do
-      Event.where(:collegiatelink_id => event1.id).first.title.should == event1.title
+      Event.where(:collegiatelink_id => event1.collegiatelink_id).first.
+        title.should == event1.title
+    end
+
+    it 'associates the event with its parent organization' do
+      Event.where(:collegiatelink_id => event1.collegiatelink_id).first.
+        organization.should == org
     end
   end
 

@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    @events = Event.all
+    @events = Event.includes(:organization)
   end
 
   def import
@@ -17,11 +17,16 @@ class EventsController < ApplicationController
       starts = Time.parse("#{e['Start Time']}", starts_date)
       ends = Time.parse("#{e["End Time"]}", ends_date)
 
-      Event.where(:collegiatelink_id => e['Event ID']).first_or_create.update_attributes(
+      org = Organization.where(:name => e['Organization']).first
+
+      event = Event.where(:collegiatelink_id => e['Event ID']).first_or_initialize(
         :starts => starts,
         :ends => ends,
         :title => e['Event Title'],
       )
+      event.organization = org if org
+
+      event.save
     end
 
     redirect_to :events

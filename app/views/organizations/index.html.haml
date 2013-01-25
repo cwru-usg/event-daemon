@@ -1,0 +1,11 @@
+%table
+  %thead
+    %th Organization ID
+    %th Name
+    %th Status
+  %tbody
+    -@orgs.each do |org|
+      %tr
+        %td= org.collegiatelink_id
+        %td= org.name
+        %td= org.status
