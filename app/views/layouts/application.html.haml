@@ -27,7 +27,12 @@
                   .subbar
                     %ul
                       %li= link_to 'Sync Organizations', sync_organizations_path
-                %li= link_to 'Log Out', logout_path
+                %li.has_subbar
+                  = link_to current_user, '#'
+                  .subbar
+                    %ul
+                      %li= link_to 'Log Out', logout_path
+                      %li= link_to 'Manage Permissions', logout_path
               - else
                 %li= link_to 'Log In', login_path
       #container.logo

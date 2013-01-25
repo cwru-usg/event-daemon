@@ -16,10 +16,10 @@ header, footer {
 }
 
 #container {
-  width: 940px;
+  clear: both;
   margin: auto;
   overflow: visible;
-  clear: both;
+  width: 940px;
 }
 
 #container.logo {
@@ -50,11 +50,11 @@ header, footer {
 }
 
 #footer {
-  height: 28px;
-  font-size: .8em;
-  padding-top: 12px;
-  margin-top: 40px;
   box-shadow: inset 0 3px 8px rgba(0, 0, 0, 0.25);
+  font-size: .8em;
+  height: 28px;
+  margin-top: 40px;
+  padding-top: 12px;
 }
 
 #footer a {
@@ -90,44 +90,46 @@ header, footer {
 
 #navigation > ul > li a {
   color: #f2f2f2;
-  text-decoration: none;
+  display: block;
   font-size: 1.2em;
   font-weight: 300;
+  height: 32px;
   margin-left: 20px;
   margin-right: 20px;
-  display: block;
-  height: 32px;
+  position: relative;
+  text-decoration: none;
+  z-index: 1;
 }
 
 #navigation > ul > li ul {
   display: none;
-  list-style: none;
   height: 4em;
-  width: 940px;
+  list-style: none;
   margin: auto;
+  width: 940px;
 }
 
 #navigation > ul > li .subbar {
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 60px;
   background-color: #2E659F;
   box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+  left: 0;
+  position: absolute;
+  top: 60px;
+  width: 100%;
 }
 
 
 #navigation > ul > li.has_subbar:hover:after {
-  display: block;
-  content: "";
-  width: 0;
-  height: 0;
-  position: relative;
-  left: 33%;
-  top: 8px;
-  margin-top: -32px;
-  border: 16px solid transparent;
   border-bottom-color: #2E659F;
+  border: 16px solid transparent;
+  content: "";
+  display: block;
+  height: 0;
+  left: 33%;
+  margin-top: -32px;
+  position: relative;
+  top: 8px;
+  width: 0;
 }
 #navigation > ul > li:hover ul {
   display: block;
@@ -144,10 +146,10 @@ header, footer {
 }
 
 #navigation > ul > li ul li a {
-  padding: 0 20px;
-  margin: 0;
-  line-height: 3.3em;
   height: 100%;
+  line-height: 3.3em;
+  margin: 0;
+  padding: 0 20px;
 }
 /*
  *   Headers and titles ------------------------------------------------------------------
