@@ -1,0 +1,35 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "content-type"}
+    %title USG
+    = stylesheet_link_tag 'application'
+    %meta{:name => "viewport", :content => "width=460"}
+  %body
+    .body-container
+      %header#header
+        #container
+          #navigation
+            %ul
+              %li
+                = link_to 'Home', root_path
+              %li
+                %a{:href => "http://usg.case.edu/node/79"} Log In
+      #container.logo
+        #logo
+          %a{:href => "http://usg.case.edu/"}
+            =image_tag 'logo.png'
+          %h1
+            %a{:href => "http://usg.case.edu"} Undergraduate Student Government
+      #container
+        #content.page
+      .body-container-push
+    %footer#footer
+      #container
+        .footer-left
+          The
+          %strong USG
+          is a member of the
+          %a{:href => "http://students.case.edu/activities/involvement/sec.html"} Student Executive Council
+          at
+          %a{:href => "http://case.edu/"} Case Western Reserve University
