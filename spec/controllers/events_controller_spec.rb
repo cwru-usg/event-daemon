@@ -22,6 +22,7 @@ describe EventsController do
           'End Date',
           'End Time',
           'Event Type',
+          'Event Title',
         ].join(','),
 
         # Data Row 1
@@ -32,6 +33,7 @@ describe EventsController do
           event1.ends.strftime(DATE_FORMAT),
           event1.ends.strftime(TIME_FORMAT),
           'Public',
+          event1.title,
         ].join(','),
 
         # Data Row 2
@@ -42,6 +44,7 @@ describe EventsController do
           event2.ends.strftime(DATE_FORMAT),
           event2.ends.strftime(TIME_FORMAT),
           'Public',
+          event2.title,
         ].join(','),
       ].join("\n")
     }
@@ -65,6 +68,10 @@ describe EventsController do
     it 'assigns the start and end date to the events' do
       Event.where(:collegiatelink_id => event1.id).first.starts.should == event1.starts
       Event.where(:collegiatelink_id => event2.id).first.ends.should == event2.ends
+    end
+
+    it 'assigns the title to the events' do
+      Event.where(:collegiatelink_id => event1.id).first.title.should == event1.title
     end
   end
 

@@ -1,0 +1,11 @@
+%table
+  %thead
+    %th Event ID
+    %th Title
+    %th Starts
+  %tbody
+    -@events.each do |e|
+      %tr
+        %td= e.collegiatelink_id
+        %td= e.title
+        %td= e.starts

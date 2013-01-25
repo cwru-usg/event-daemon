@@ -1,4 +1,8 @@
 class EventsController < ApplicationController
+  def index
+    @events = Event.all
+  end
+
   def import
 
   end
@@ -16,9 +20,10 @@ class EventsController < ApplicationController
       Event.where(:collegiatelink_id => e['Event ID']).first_or_create.update_attributes(
         :starts => starts,
         :ends => ends,
+        :title => e['Event Title'],
       )
     end
 
-    render :text => Event.all.inspect
+    redirect_to :events
   end
 end
