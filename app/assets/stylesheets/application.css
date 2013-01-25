@@ -37,6 +37,7 @@ header, footer {
   box-shadow: inset 0 -3px 8px rgba(0, 0, 0, 0.25);
   z-index: 1;
   overflow: visible;
+  position: relative;
 }
 
 .body-container {
@@ -77,25 +78,77 @@ header, footer {
   text-align: right;
 }
 
-#navigation ul {
+#navigation > ul {
   margin-top: 28px;
   list-style: none;
 }
 
-#navigation ul li {
+#navigation > ul li {
   float: left;
+  height: 100%;
 }
 
-#navigation ul li a {
+#navigation > ul > li a {
   color: #f2f2f2;
   text-decoration: none;
   font-size: 1.2em;
   font-weight: 300;
-  margin-left: 40px;
+  margin-left: 20px;
+  margin-right: 20px;
   display: block;
-  height: 30px;
+  height: 32px;
 }
 
+#navigation > ul > li ul {
+  display: none;
+  list-style: none;
+  height: 4em;
+  width: 940px;
+  margin: auto;
+}
+
+#navigation > ul > li .subbar {
+  width: 100%;
+  position: absolute;
+  left: 0;
+  top: 60px;
+  background-color: #2E659F;
+  box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+#navigation > ul > li.has_subbar:hover:after {
+  display: block;
+  content: "";
+  width: 0;
+  height: 0;
+  position: relative;
+  left: 33%;
+  top: 8px;
+  margin-top: -32px;
+  border: 16px solid transparent;
+  border-bottom-color: #2E659F;
+}
+#navigation > ul > li:hover ul {
+  display: block;
+}
+
+#navigation > ul > li ul li {
+  float: right;
+}
+
+#navigation > ul > li ul li:hover {
+  background-color: #0A5B9A;
+  position: relative;
+  z-index: 2;
+}
+
+#navigation > ul > li ul li a {
+  padding: 0 20px;
+  margin: 0;
+  line-height: 3.3em;
+  height: 100%;
+}
 /*
  *   Headers and titles ------------------------------------------------------------------
  */
@@ -115,6 +168,7 @@ h1 {
   float: left;
   margin: -40px 0 20px 20px;
   z-index: 3;
+  position: relative;
   border: 0;
 }
 

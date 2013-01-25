@@ -8,6 +8,13 @@
     -@events.each do |e|
       %tr
         %td= e.collegiatelink_id
-        %td= e.organization.try(:name)
+        %td
+          -if e.organization
+            =link_to e.organization.name, e.organization
         %td= e.title
-        %td= e.starts
+        %td
+          - if e.starts < Time.now
+            =time_ago_in_words(e.starts)
+            ago
+          - else
+            =distance_of_time_in_words_to_now(e.starts)

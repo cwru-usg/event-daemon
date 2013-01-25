@@ -1,1 +1,12 @@
-Hello
+%h2 Upcoming Events (7 days)
+%table
+  %thead
+    %th Event
+    %th Organization
+    %th Begins...
+  %tbody
+    -@events.each do |e|
+      %tr
+        %td= e.title
+        %td= e.organization.try(:name)
+        %td= distance_of_time_in_words_to_now(e.starts)

@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
   def index
-    @events = Event.includes(:organization)
+    @events = Event.where(['starts > ?', 1.month.ago]).includes(:organization).order(:starts)
   end
 
   def import
