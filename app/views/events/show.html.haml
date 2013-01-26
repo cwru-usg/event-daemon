@@ -11,12 +11,10 @@
       %td= @event.ends
     %tr
       %th{ :scope => 'row' } Event State
-      %td= @event.state
-    %tr
-      %th{ :scope => 'row' } Desired Event State
       %td
-        = @event.desired_state
+        = Event.state_descriptions[@event.state]
         - if @event.desired_state != @event.state_name
-          = surround '(',')' do
-            = link_to 'Update Event State', update_state_event_path(@event)
+          %br
+          %b Should Be: #{Event.state_descriptions[@event.desired_state]}
+          %h2= link_to 'Update Event State', update_state_event_path(@event)
 

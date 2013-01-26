@@ -2,6 +2,31 @@ class Event < ActiveRecord::Base
   attr_accessible :starts, :ends, :title
   belongs_to :organization
 
+  def self.states
+    [ :unknown, :upcoming, :happening, :happened, :disbursement_wait ]
+  end
+
+  def self.all_states
+    Event.states + [ :cancelled, :funds_reclaimed ]
+  end
+
+  def self.state_descriptions
+    # TODO: Get these out of here...
+    {
+      :unknown => 'Distant Future (more than 2 weeks out)',
+      :upcoming => 'Short-Term Future (less than 2 weeks out)',
+      :happening => 'Happening Now!',
+      :happened => 'Just Ended (ended less than 7 days ago)',
+      :disbursement_wait => 'In Disbursement Window',
+      :cancelled => 'Event Cancelled',
+      :funds_reclaimed => 'Funds Reclaimed!',
+    }.with_indifferent_access
+  end
+
+  def self.need_attention
+    Event.all.keep_if { |x| x.state_name != x.desired_state }
+  end
+
   # See README.md for descriptions of the states
   state_machine :state, :initial => :unknown do
     state :unknown
@@ -83,9 +108,5 @@ class Event < ActiveRecord::Base
 
   def happening?
     !happened? && !in_future?
-  end
-
-  def self.need_attention
-    @need_attention ||= Event.all.keep_if { |x| x.state_name != x.desired_state }
   end
 end

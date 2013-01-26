@@ -1,8 +1,9 @@
 class EventsController < ApplicationController
   def index
-    @events = Event.where(['starts > ?', 1.month.ago]).includes(:organization).order(:starts)
+    @events = Event.where(['starts > ?', 1.month.ago]).includes(:organization).order(:starts).reverse_order
+
     if params[:state]
-      if params[:state] == 'incorrect'
+      if params[:state] == 'todo'
         @events = @events.keep_if {|e| e.state_name != e.desired_state }
       else
         @events = @events.keep_if {|e| e.state == params[:state] }
