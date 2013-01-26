@@ -5,16 +5,25 @@ UsgEventDaemon::Application.routes.draw do
   match '/login' => 'users#login', :as => 'login'
   match '/logout' => 'users#logout', :as => 'logout'
 
-  resources :events do
+  resources :events, :id => /\d+/ do
     collection do
       get 'import'
       post 'import', :action => 'do_import'
     end
+
+    member do
+      get 'update_state'
+    end
   end
+  match '/events/:state' => 'events#index', :as => 'event_state'
 
   resources :organizations do
     collection do
       get 'sync'
+    end
+
+    member do
+      get 'exec'
     end
   end
 

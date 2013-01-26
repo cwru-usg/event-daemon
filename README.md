@@ -56,7 +56,7 @@ various states interact with Dynamic Rolling Funding:
 
 States
 --------
-* `APPROVED` - An event that has been approved on SpartanLink but for which
+* `UNKNOWN` - An event that has been approved on SpartanLink but for which
   Email 1 has not been sent.
 * `UPCOMING` - An event in the time period between Email 1 and Email 2.
 * `HAPPENING` - An event between Email 2 and Email 3
@@ -67,7 +67,7 @@ States
 
 Transitions
 --------
-* `APPROVED -> UPCOMING` - Occurs automatically once it is time to send Email 1
+* `UNKNOWN -> UPCOMING` - Occurs automatically once it is time to send Email 1
 * `UPCOMING -> HAPPENING` - Occurs automatically once it is time to send Email
   2
 * `HAPPENING -> HAPPENED` - Occurs automatically once it is time to send Email

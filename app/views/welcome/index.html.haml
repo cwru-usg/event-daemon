@@ -1,12 +1,11 @@
-%h2 Upcoming Events (7 days)
-%table
-  %thead
-    %th Event
-    %th Organization
-    %th Begins...
-  %tbody
-    -@events.each do |e|
-      %tr
-        %td= e.title
-        %td= e.organization.try(:name)
-        %td= distance_of_time_in_words_to_now(e.starts)
+%h2 Welcome to the USG Dynamic Rolling Funding Reminder System!
+%p
+  This website is being used by the USG to manage events for the Dynamic Rolling
+  Funding system.
+%h3 For USG Finance Team Members:
+%p
+  USG Finance Team members should log in.
+%h3 For Student Organization Leaders:
+%p
+  You should receive correspondence via email. However, you are also welcome to
+  log in.

@@ -19,9 +19,8 @@
                   .subbar
                     %ul
                       %li= link_to 'Import Events', import_events_path
-                      %li= link_to 'Import Events2', import_events_path
-                      %li= link_to 'Import Events3', import_events_path
-                      %li= link_to 'Import Events4', import_events_path
+                      %li= link_to "To Do (#{@num_to_do})", import_events_path
+                      %li= link_to 'View All Events', events_path
                 %li.has_subbar
                   = link_to 'Organizations', organizations_path
                   .subbar

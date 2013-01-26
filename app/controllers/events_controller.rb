@@ -1,10 +1,29 @@
 class EventsController < ApplicationController
   def index
     @events = Event.where(['starts > ?', 1.month.ago]).includes(:organization).order(:starts)
+    if params[:state]
+      if params[:state] == 'incorrect'
+        @events = @events.keep_if {|e| e.state_name != e.desired_state }
+      else
+        @events = @events.keep_if {|e| e.state == params[:state] }
+      end
+    end
   end
 
   def import
 
+  end
+
+  def update_state
+    @event = Event.find(params[:id])
+
+    @event.update_state!
+
+    redirect_to event_path(@event)
+  end
+
+  def show
+    @event = Event.find(params[:id])
   end
 
   def do_import
@@ -27,6 +46,7 @@ class EventsController < ApplicationController
       event.organization = org if org
 
       event.save
+      event.load_state!
     end
 
     redirect_to :events

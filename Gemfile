@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.5'
 gem 'haml'
 gem 'sass'
+gem 'state_machine'
+gem 'premailer-rails3'
 
 gem 'collegiatelink'
 

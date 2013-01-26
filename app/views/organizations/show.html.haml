@@ -1,0 +1,21 @@
+%h2=@org.name
+%table
+  %thead
+    %th Event ID
+    %th Organization
+    %th Title
+    %th Starts
+  %tbody
+    -@org.events.each do |e|
+      %tr
+        %td= e.collegiatelink_id
+        %td
+          -if e.organization
+            =link_to e.organization.name, e.organization
+        %td= e.title
+        %td
+          - if e.starts < Time.now
+            =time_ago_in_words(e.starts)
+            ago
+          - else
+            =distance_of_time_in_words_to_now(e.starts)

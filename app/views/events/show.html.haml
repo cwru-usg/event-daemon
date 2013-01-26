@@ -1,0 +1,22 @@
+%h2 #{@event.organization.name}'s #{@event.title}
+%p
+  Here are details about the event...
+%table
+  %tbody
+    %tr
+      %th{ :scope => 'row' } Starts
+      %td= @event.starts
+    %tr
+      %th{ :scope => 'row' } Ends
+      %td= @event.ends
+    %tr
+      %th{ :scope => 'row' } Event State
+      %td= @event.state
+    %tr
+      %th{ :scope => 'row' } Desired Event State
+      %td
+        = @event.desired_state
+        - if @event.desired_state != @event.state_name
+          = surround '(',')' do
+            = link_to 'Update Event State', update_state_event_path(@event)
+

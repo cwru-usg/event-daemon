@@ -1,9 +1,16 @@
+%h2
+  Show Events:
+  - [:unknown, :upcoming, :happening, :happened, :disbursement_wait].each do |s|
+    #{link_to s.to_s, event_state_url(s)} |
+%h2
+  =link_to 'Show Events That Are Incorrect', event_state_url(:incorrect)
 %table
   %thead
     %th Event ID
     %th Organization
     %th Title
     %th Starts
+    %th Ends
   %tbody
     -@events.each do |e|
       %tr
@@ -11,10 +18,18 @@
         %td
           -if e.organization
             =link_to e.organization.name, e.organization
-        %td= e.title
+        %td= link_to e.title, e
         %td
           - if e.starts < Time.now
             =time_ago_in_words(e.starts)
             ago
           - else
+            in
             =distance_of_time_in_words_to_now(e.starts)
+        %td
+          - if e.ends < Time.now
+            =time_ago_in_words(e.ends)
+            ago
+          - else
+            in
+            =distance_of_time_in_words_to_now(e.ends)
