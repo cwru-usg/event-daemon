@@ -19,4 +19,11 @@ class OrganizationsController < ApplicationController
 
     redirect_to :organizations
   end
+
+  def sync_exec
+    @org = Organization.find(params[:id])
+    @org.sync_executive_board!
+
+    redirect_to organization_path(@org)
+  end
 end

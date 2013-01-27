@@ -24,6 +24,7 @@ UsgEventDaemon::Application.routes.draw do
 
     member do
       get 'exec'
+      get 'sync_exec'
     end
   end
 

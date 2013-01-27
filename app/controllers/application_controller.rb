@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   def setup
     @num_to_do = Event.need_attention.count
+    @user = (session[:cas_user].present?) ? User.where(:username => session[:cas_user]).first_or_create : nil
   end
 
   def set_time_zone

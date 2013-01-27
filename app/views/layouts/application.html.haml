@@ -14,18 +14,26 @@
               %li
                 = link_to 'Home', root_path
               - if logged_in?
-                %li.has_subbar
-                  = link_to 'Events', events_path
-                  .subbar
-                    %ul
-                      %li= link_to 'Import Events', import_events_path
-                      %li= link_to "To Do (#{@num_to_do})", event_state_url(:todo)
-                      %li= link_to 'View All Events', events_path
-                %li.has_subbar
-                  = link_to 'Organizations', organizations_path
-                  .subbar
-                    %ul
-                      %li= link_to 'Sync Organizations', sync_organizations_path
+                - if @user.is_finance_team
+                  %li.has_subbar
+                    = link_to 'Events', events_path
+                    .subbar
+                      %ul
+                        %li= link_to 'Import Events', import_events_path
+                        %li= link_to "To Do (#{@num_to_do})", event_state_url(:todo)
+                        %li= link_to 'View All Events', events_path
+                  %li.has_subbar
+                    = link_to 'Organizations', organizations_path
+                    .subbar
+                      %ul
+                        %li= link_to 'Sync Organizations', sync_organizations_path
+                - if @user.current_positions.present?
+                  %li.has_subbar
+                    = link_to 'My Organizations', '#'
+                    .subbar
+                      %ul
+                        - @user.current_positions.each do |p|
+                          %li= link_to p.organization.name, p.organization
                 %li.has_subbar
                   = link_to current_user, '#'
                   .subbar

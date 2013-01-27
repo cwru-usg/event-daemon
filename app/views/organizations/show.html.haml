@@ -19,3 +19,11 @@
             ago
           - else
             =distance_of_time_in_words_to_now(e.starts)
+%h2 Executive Board (#{link_to 'Sync', sync_exec_organization_url(@org)})
+%table
+  %tbody
+    -@org.exec_positions.includes(:user).each do |position|
+      %tr
+        %th{ :scope => 'row' } #{position.user.firstname} #{position.user.lastname}
+        %td= position.user.campusemail
+        %td= position.name
