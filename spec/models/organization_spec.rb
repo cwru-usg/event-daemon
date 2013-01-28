@@ -50,7 +50,7 @@ describe Organization do
           normal_guy.user.stubs(:active_positions => [ normal_guy ])
           another_exec.user.stubs(:active_positions => [ another_exec ])
         end
-                           
+
         it 'syncs only members with executive titles' do
           organization.sync_executive_board!
 

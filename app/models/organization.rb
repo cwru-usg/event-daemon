@@ -22,7 +22,7 @@ class Organization < ActiveRecord::Base
     self.exec_positions = exec.map do |member|
       self.exec_positions.create(
         :user => User.where(:username => member.username).first_or_create(
-          :collegiatelink_id => member.collegiatelink_id,
+          :collegiatelink_id => member.id,
           :firstname => member.firstname,
           :lastname => member.lastname,
           :campusemail => member.campusemail,
