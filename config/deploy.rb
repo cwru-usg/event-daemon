@@ -31,9 +31,9 @@ namespace :deploy do
   end
 
   desc "Symlink important configuration files"
-  task :symlink, :roles => :app do
-    run "ln -s #{shared_path}/config/database.yml #{release_path}/config/"
-    run "ln -s #{shared_path}/config/initializers/collegiatelink.rb #{release_path}/config/initializers/"
+  task :config_symlink, :roles => :app do
+    run "ln -fs #{shared_path}/config/database.yml #{release_path}/config/"
+    run "ln -fs #{shared_path}/config/initializers/collegiatelink.rb #{release_path}/config/initializers/"
   end
 
   namespace :assets do
@@ -43,6 +43,6 @@ namespace :deploy do
   end
 end
 
-after 'deploy', 'deploy:symlink'
-after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:assets:precompile'
+after 'deploy:create_symlink', 'deploy:config_symlink'
+after 'deploy:config_symlink', 'deploy:migrate'
