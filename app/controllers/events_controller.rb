@@ -1,4 +1,6 @@
 class EventsController < ApplicationController
+  before_filter :require_finance_team
+
   def index
     @events = Event.where(['starts > ?', 1.month.ago]).includes(:organization).order(:starts).reverse_order
 
@@ -11,9 +13,7 @@ class EventsController < ApplicationController
     end
   end
 
-  def import
-
-  end
+  def import; end
 
   def update_state
     @event = Event.find(params[:id])

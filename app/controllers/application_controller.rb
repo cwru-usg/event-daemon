@@ -13,8 +13,14 @@ class ApplicationController < ActionController::Base
   end
 
   def require_login
-    if !session[:cas_user]
+    if !!@user
       redirect_to root_url, :alert => 'You must be signed in to see that page'
+    end
+  end
+
+  def require_finance_team
+    if !@user.try(:is_finance_team)
+      redirect_to root_url, :alert => 'You must be a member of finance team to see that page!'
     end
   end
 end

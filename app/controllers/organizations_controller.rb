@@ -1,4 +1,5 @@
 class OrganizationsController < ApplicationController
+  before_filter :require_finance_team
 
   def index
     @orgs = Organization.all
