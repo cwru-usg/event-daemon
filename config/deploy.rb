@@ -30,6 +30,12 @@ namespace :deploy do
     run "touch #{current_release}/tmp/restart.txt"
   end
 
+  desc "Symlink important configuration files"
+  task :symlink, :roles => :app do
+    run "ln -s #{shared_path}/config/database.yml #{release_path}/config/"
+    run "ln -s #{shared_path}/config/initializers/collegiatelink.rb #{release_path}/config/initializers/"
+  end
+
   namespace :assets do
     task :precompile, :roles => :app do
       run "cd #{current_release} && rake assets:precompile"
@@ -37,5 +43,6 @@ namespace :deploy do
   end
 end
 
+after 'deploy', 'deploy:symlink'
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:assets:precompile'
