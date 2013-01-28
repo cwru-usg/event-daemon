@@ -32,7 +32,7 @@ namespace :deploy do
 
   namespace :assets do
     task :precompile, :roles => :app do
-      run 'rake assets:precompile'
+      run "cd #{current_release} && rake assets:precompile"
     end
   end
 end
