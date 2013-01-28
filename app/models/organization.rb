@@ -4,6 +4,8 @@ class Organization < ActiveRecord::Base
   has_many :exec_positions, :class_name => CurrentPosition
   has_many :exec_members, :through => :exec_positions, :source => :user
 
+  cattr_accessor :exec_titles do ['President', 'Treasurer', 'Vice-President', 'Secretary', 'Primary Contact'] end
+
   def executive_board
     # Stub for now, will return the actual email addresses of the executive
     # board members
@@ -11,21 +13,19 @@ class Organization < ActiveRecord::Base
   end
 
   def sync_executive_board!
-    exec_titles = ['President', 'Treasurer', 'Vice-President', 'Secretary', 'Primary Contact']
-
     exec = COLLEGIATELINK.roster(collegiatelink_id).uniq { |m| m.id }.keep_if do |member|
-      member.active_positions.keep_if { |pos| exec_titles.include?(pos.name) }.present?
+      member.active_positions.keep_if { |pos| Organization.exec_titles.include?(pos.name) }.present?
     end
 
     self.exec_positions.destroy_all
 
     self.exec_positions = exec.map do |member|
       self.exec_positions.create(
-        :user => User.where(:collegiatelink_id => member.id).first_or_create(
+        :user => User.where(:username => member.username).first_or_create(
+          :collegiatelink_id => member.collegiatelink_id,
           :firstname => member.firstname,
           :lastname => member.lastname,
           :campusemail => member.campusemail,
-          :username => member.username,
         ),
         :name => member.active_positions.keep_if { |pos| exec_titles.include?(pos.name) }.map(&:name).join(", ")
       )
