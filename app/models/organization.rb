@@ -20,7 +20,6 @@ class Organization < ActiveRecord::Base
     self.exec_positions.destroy_all
 
     self.exec_positions = exec.map do |member|
-      Rails.logger member.inspect
       self.exec_positions.create(
         :user => User.where(:username => member.username).first_or_create(
           :collegiatelink_id => member.id,
