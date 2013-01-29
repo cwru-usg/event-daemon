@@ -9,7 +9,10 @@ class Organization < ActiveRecord::Base
   def executive_board
     # Stub for now, will return the actual email addresses of the executive
     # board members
-    User.where(:firstname => 'Thomas', :lastname => 'Dooner').all
+    [
+      User.where(:username => 'ted27').first,
+      User.where(:username => 'cpw20').first,
+    ]
   end
 
   def sync_executive_board!

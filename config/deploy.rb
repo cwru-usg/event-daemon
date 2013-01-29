@@ -34,6 +34,7 @@ namespace :deploy do
   task :config_symlink, :roles => :app do
     run "ln -fs #{shared_path}/config/database.yml #{release_path}/config/"
     run "ln -fs #{shared_path}/config/initializers/collegiatelink.rb #{release_path}/config/initializers/"
+    run "ln -fs #{shared_path}/config/initializers/mail.rb #{release_path}/config/initializers/"
   end
 
   namespace :assets do
