@@ -1,9 +1,9 @@
 module ApplicationHelper
   def logged_in?
-    !!@user
+    !!@logged_in_user
   end
 
   def current_user
-    logged_in? ? @user.name : 'Unknown'
+    logged_in? ? @logged_in_user.name : 'Unknown'
   end
 end

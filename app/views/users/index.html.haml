@@ -1,0 +1,34 @@
+%h2 Finance Committee Members
+%table
+  %thead
+    %th Name
+    %th Case ID
+    %th Campus Email
+    %th Grant Privileges
+  %tbody
+    -@users[true].each do |u|
+      %tr
+        %td #{u.try(:firstname)} #{u.try(:lastname)}
+        %td #{u.try(:username)}
+        %td #{u.try(:campusemail)}
+        %td= link_to 'Revoke Admin!', revoke_finance_team_user_url(u.id), :confirm => 'Are you sure you want to revoke admin?'
+%h2 All Users
+%table
+  %thead
+    %th Name
+    %th Case ID
+    %th Campus Email
+    %th Grant Privileges
+  %tbody
+    -@users[false].each do |u|
+      %tr
+        %td #{u.try(:firstname)} #{u.try(:lastname)}
+        %td #{u.try(:username)}
+        %td #{u.try(:campusemail)}
+        %td= link_to 'Grant Admin!', grant_finance_team_user_url(u.id)
+%h2 Add User
+=form_for(User.new) do |f|
+  =f.label :username, 'Case ID:'
+  =f.text_field :username
+  %br
+  =f.submit

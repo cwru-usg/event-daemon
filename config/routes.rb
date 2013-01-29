@@ -2,8 +2,17 @@ UsgEventDaemon::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match '/login' => 'users#login', :as => 'login'
-  match '/logout' => 'users#logout', :as => 'logout'
+  resources :users do
+    collection do
+      get 'login'
+      get 'logout'
+    end
+
+    member do
+      get 'grant_finance_team'
+      get 'revoke_finance_team'
+    end
+  end
 
   resources :events, :id => /\d+/ do
     collection do
