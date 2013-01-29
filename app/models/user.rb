@@ -1,6 +1,4 @@
 class User < ActiveRecord::Base
-  validates_uniqueness_of :collegiatelink_id
-
   attr_accessible :firstname, :lastname, :campusemail, :username,
     :collegiatelink_id
 
