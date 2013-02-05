@@ -76,6 +76,7 @@
               =e.to_s(:desired_state)
               %br
               =link_to 'Update Event State', update_state_event_path(e), :class => 'btn'
+              =link_to 'Ninja Update Event State', update_state_event_path(e, :ninja => 'true'), :class => 'btn'
           %td
             -if e.organization
               -e.organization.exec_positions.each do |position|

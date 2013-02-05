@@ -19,7 +19,11 @@ class EventsController < ApplicationController
   def update_state
     @event = Event.find(params[:id])
 
-    @event.update_state!
+    if params[:ninja] == 'true'
+      @event.load_state!
+    else
+      @event.update_state!
+    end
 
     redirect_to event_path(@event)
   end
