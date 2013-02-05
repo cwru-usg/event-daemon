@@ -65,6 +65,8 @@ class Event < ActiveRecord::Base
     end
 
     after_transition :on => :update_state! do |e, t|
+      e.organization.sync_executive_board! unless e.executive_board.present?
+
       case t.to_name
       when :upcoming
         EventMailer.two_weeks_out(e).deliver
@@ -84,6 +86,22 @@ class Event < ActiveRecord::Base
     return :happened if happened? || (happened? && !ended_more_than_a_week_ago?)
     return :happening if happening? || less_than_one_day_in_future?
     return :upcoming
+  end
+
+  def to_s(type)
+    human_fmt = '%A, %-m/%-d @ %l:%M %P'
+    case type
+    when :starts
+      starts.strftime(human_fmt)
+    when :ends
+      ends.strftime(human_fmt)
+    when :state
+      Event.state_descriptions[state]
+    when :desired_state
+      Event.state_descriptions[desired_state]
+    else
+      super
+    end
   end
 
   def happened?

@@ -2,7 +2,8 @@ class EventsController < ApplicationController
   before_filter :require_finance_team
 
   def index
-    @events = Event.where(['starts > ?', 1.month.ago]).includes(:organization).order(:starts).reverse_order
+    @events = Event.where(['starts > ?', 1.month.ago]).
+      includes({ :organization => :exec_members }).order(:starts).reverse_order
 
     if params[:state]
       if params[:state] == 'todo'

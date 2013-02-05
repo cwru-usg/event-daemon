@@ -3,8 +3,10 @@
   %head
     %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "content-type"}
     %title USG
+    = javascript_include_tag 'application'
     = stylesheet_link_tag 'application'
     %meta{:name => "viewport", :content => "width=460"}
+    %meta{:'http-equiv' => 'X-UA-Compatible', :content => 'chrome=1'}
   %body
     .body-container
       %header#header

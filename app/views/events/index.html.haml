@@ -1,35 +1,85 @@
+:javascript
+  $(function() {
+    $(".detail").hide();
+
+    $("#event-table").on('click', function(e) {
+      if ($(e.target).is('a')) return;
+      if (($row = $(e.target).parents("tr.event")).length) {
+        var id = $row.attr('id').split('-');
+        $("#event-details-" + id[id.length - 1]).toggle();
+      }
+    });
+  });
+:css
+  #event-table, #event-table tr {
+    border: 0px;
+  }
+  #event-table a {
+    color: #111;
+  }
+  #event-table .event {
+    cursor: pointer;
+  }
+  #event-table .title {
+    font-size: 14px;
+  }
+  .btn {
+    display: inline-block;
+    font-size: 14px;
+    line-height: 2.5em;
+    background-color: rgba(0,0,0,0.1);
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    margin-top: 10px;
+    color: #000;
+  }
+  .btn:hover {
+    background-color: rgba(0,0,0,0.3);
+    color: #666;
+  }
 %h2
   Filter Events:
-  =select_tag :state, options_for_select([['All Events', '']] + Event.states.map{|s| [Event.state_descriptions[s], s]}, params[:state]), :onchange => 'javascript:window.location="/events/"+this.value;'
-%table
+  =select_tag :state, options_for_select([['All Events', ''], ['Todo Events', 'todo']] + Event.states.map{|s| [Event.state_descriptions[s], s]}, params[:state]), :onchange => "javascript:window.location=\"#{events_path}/\"+this.value;"
+%table#event-table
   %thead
     %th Event ID
     %th Title
-    %th Starts
-    %th Ends
+    %th{ :width => '300'} Organization
   %tbody
     -@events_by_state = Hash.new([]).merge(@events.group_by { |e| e.state_name })
     -Event.states.reverse.each do |s|
       %tr
         %th{ :colspan => 5 }= Event.state_descriptions[s]
       -@events_by_state[s].each do |e|
-        %tr
+        %tr.event{ :id => "event-#{e.id}" }
           %td= e.collegiatelink_id
           %td
-            %b= link_to e.title, e
+            %b= link_to e.title, e, :class => 'title'
+          %td
             -if e.organization
-              (#{link_to e.organization.name, e.organization})
+              #{link_to e.organization.name, e.organization}
+        %tr.detail{ :id => "event-details-#{e.id}" }
           %td
-            - if e.starts < Time.now
-              =time_ago_in_words(e.starts)
-              ago
-            - else
-              in
-              =distance_of_time_in_words_to_now(e.starts)
           %td
-            - if e.ends < Time.now
-              =time_ago_in_words(e.ends)
-              ago
-            - else
-              in
-              =distance_of_time_in_words_to_now(e.ends)
+            %b Starts:
+            =e.to_s(:starts)
+            %br
+            %b Ends:
+            =e.to_s(:ends)
+            %br
+            %b State:
+            =e.to_s(:state)
+            - if e.desired_state != e.state_name
+              %br
+              %b Desired State:
+              =e.to_s(:desired_state)
+              %br
+              =link_to 'Update Event State', update_state_event_path(e), :class => 'btn'
+          %td
+            -if e.organization
+              -e.organization.exec_positions.each do |position|
+                %b #{position.name}:
+                #{position.user.firstname} #{position.user.lastname}
+                %br
+              =link_to 'Sync Executive Board', sync_exec_organization_path(e.organization), :class => 'btn'
