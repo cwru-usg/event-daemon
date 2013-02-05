@@ -7,12 +7,15 @@ class Organization < ActiveRecord::Base
   cattr_accessor :exec_titles do ['President', 'Treasurer', 'Vice-President', 'Secretary', 'Primary Contact'] end
 
   def executive_board
-    # Stub for now, will return the actual email addresses of the executive
-    # board members
-    [
-      User.where(:username => 'ted27').first,
-      User.where(:username => 'cpw20').first,
-    ]
+    case Rails.env
+    when "development"
+      [
+        User.where(:username => 'ted27').first,
+        User.where(:username => 'cpw23').first,
+      ]
+    when "production"
+      exec_members
+    end
   end
 
   def sync_executive_board!

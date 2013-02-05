@@ -17,4 +17,8 @@
           %br
           %b Should Be: #{Event.state_descriptions[@event.desired_state]}
           %h2= link_to 'Update Event State', update_state_event_path(@event)
+          This will send an email to usgfinanceteam@case.edu, and:
+          %ul
+            - @event.organization.executive_board.map(&:to_email).each do |p|
+              %li= p
 

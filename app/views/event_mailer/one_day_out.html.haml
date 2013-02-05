@@ -1,9 +1,6 @@
 %p
-  Hello,
+  Dear Officers of #{@event.organization.name},
 %p
-  It looks like your event is going to happen within 24 hours:
-%pre
-  #{@event.inspect}
+  Hi! We know that you are probably busy planning for "#{@event.title}" tomorrow, but we just wanted to remind you to collect all of your itemized receipts and turn them in no later than #{@event.ends.to_date}.  If you need longer for any reason, please contact your group's USG Treasurer to arrange as such.
 %p
-  This is the email which wishes you good luck for your event, and offers you
-  the final opportunity to change the date of your event.
+  Good luck with the event, and please do not hesitate to let us know if you have any questions or concerns.

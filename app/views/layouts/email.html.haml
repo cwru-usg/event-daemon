@@ -1,10 +1,15 @@
-%h2 HOLY EMAIL TEMPLATE!
+%table#header
+  %tr
+    %td{ :width => '130'}= image_tag 'http://usg.case.edu/events/assets/logo.png', :width => '130', :alt => 'USG Logo'
+    %td
+      %h2 Undergraduate Student Government
 = yield
 %p
-  Sincerely,
+  Thanks,
   %br
-  USG
-
-\---------
-This email sent by USG. If you have received this message in error, please let
-us know.
+  The USG Finance Team
+#footer
+  This email sent automatically by USG. If you have received this message in
+  error, please make sure you are not incorrectly listed as an executive member of
+  #{@event.organization.name} on SpartanLink. If you continue to receive these
+  messages in error, please forward the message to ted27@case.edu.
