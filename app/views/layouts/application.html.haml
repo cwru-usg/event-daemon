@@ -29,6 +29,7 @@
                     .subbar
                       %ul
                         %li= link_to 'Sync Organizations', sync_organizations_path
+                        %li= link_to 'View All Organizations', organizations_path
                 - if @logged_in_user.current_positions.present?
                   %li.has_subbar
                     = link_to 'My Organizations', '#'
