@@ -30,6 +30,13 @@ class EventsController < ApplicationController
     redirect_to event_state_path(session[:last_event_index_state])
   end
 
+  def reclaim_funds
+    @event = Event.find(params[:id])
+    @event.reclaim_funds!
+
+    redirect_to event_state_path(session[:last_event_index_state])
+  end
+
   def do_import
     csv = params[:import][:csv].read.each_line.drop(2).join
 

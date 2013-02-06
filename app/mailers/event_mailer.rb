@@ -23,4 +23,11 @@ class EventMailer < ActionMailer::Base
     mail(:to => event.organization.executive_board.map(&:to_email).join(','),
          :subject => "#{@event.organization.name} Event: #{@event.title}")
   end
+
+  def funds_reclaimed(event)
+    @event = event
+
+    mail(:to => event.organization.executive_board.map(&:to_email).join(','),
+         :subject => "#{@event.organization.name} Event: #{@event.title}")
+  end
 end

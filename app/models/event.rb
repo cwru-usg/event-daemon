@@ -3,7 +3,7 @@ class Event < ActiveRecord::Base
   belongs_to :organization
 
   def self.states
-    [ :unknown, :upcoming, :happening, :happened, :disbursement_wait ]
+    [ :unknown, :upcoming, :happening, :happened, :disbursement_wait, :disbursement_done ]
   end
 
   def self.all_states
@@ -18,6 +18,7 @@ class Event < ActiveRecord::Base
       :happening => 'Happening Now!',
       :happened => 'Just Ended (ended less than 7 days ago)',
       :disbursement_wait => 'In Disbursement Window',
+      :disbursement_done => 'Past Disbursement Window',
       :cancelled => 'Event Cancelled',
       :funds_reclaimed => 'Funds Reclaimed!',
     }.with_indifferent_access
@@ -34,6 +35,7 @@ class Event < ActiveRecord::Base
     state :happening
     state :happened
     state :disbursement_wait
+    state :disbursement_done
     state :cancelled
     state :funds_reclaimed
 
@@ -51,6 +53,7 @@ class Event < ActiveRecord::Base
       transition :upcoming => :happening, :if => lambda { |e| e.desired_state == :happening }
       transition :happening => :happened, :if => lambda { |e| e.desired_state == :happened }
       transition :happened => :disbursement_wait, :if => lambda { |e| e.desired_state == :disbursement_wait }
+      transition :disbursement_wait => :disbursement_done, :if => lambda { |e| e.desired_state == :disbursement_done }
     end
 
     event :load_state! do
@@ -58,9 +61,10 @@ class Event < ActiveRecord::Base
       transition all => :happening, :if => lambda { |e| e.desired_state == :happening }
       transition all => :happened, :if => lambda { |e| e.desired_state == :happened }
       transition all => :disbursement_wait, :if => lambda { |e| e.desired_state == :disbursement_wait }
+      transition all => :disbursement_done, :if => lambda { |e| e.desired_state == :disbursement_done }
     end
 
-    event :reclaim_funds do
+    event :reclaim_funds! do
       transition all => :funds_reclaimed
     end
 
@@ -76,11 +80,18 @@ class Event < ActiveRecord::Base
         EventMailer.one_week_after(e).deliver
       end
     end
+
+    after_transition :on => :reclaim_funds! do |e, t|
+      e.organization.sync_executive_board! unless e.organization.executive_board.present?
+
+      EventMailer.funds_reclaimed(e).deliver
+    end
   end
 
   def desired_state
     return state_name if [ :cancelled, :funds_reclaimed ].include?(state_name)
 
+    return :disbursement_done if ended_more_than_two_weeks_ago?
     return :disbursement_wait if ended_more_than_a_week_ago?
     return :unknown if more_than_two_weeks_in_future?
     return :happened if happened? || (happened? && !ended_more_than_a_week_ago?)
@@ -122,6 +133,10 @@ class Event < ActiveRecord::Base
 
   def ended_more_than_a_week_ago?
     Time.now - ends > 1.week
+  end
+
+  def ended_more_than_two_weeks_ago?
+    Time.now - ends > 2.weeks
   end
 
   def happening?

@@ -22,6 +22,7 @@ UsgEventDaemon::Application.routes.draw do
 
     member do
       get 'update_state'
+      get 'reclaim_funds'
     end
   end
   match '/events/:state' => 'events#index', :as => 'event_state'
