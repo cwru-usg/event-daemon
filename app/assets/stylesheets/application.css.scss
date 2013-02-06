@@ -161,6 +161,9 @@ h1 {
   font-weight: normal;
   letter-spacing: 1px;
 }
+h2, h3, h4 {
+  font-family: 'Habibi', serif;
+}
 
 #logo {
   width: 100%;
@@ -215,6 +218,8 @@ table th {
   border: 1px solid #666;
   background: #dedede;
   padding: 8px;
+  font: 16px/1.6 'Habibi', serif;
+  letter-spacing: 1px;
 }
 
 table td {

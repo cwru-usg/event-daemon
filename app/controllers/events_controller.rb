@@ -11,6 +11,14 @@ class EventsController < ApplicationController
       else
         @events = @events.keep_if {|e| e.state == params[:state] }
       end
+
+      session[:event_list_state] = params[:state]
+    else
+      if session[:event_list_state]
+        if params[:state] != session[:event_list_state]
+          redirect_to event_state_path(session[:event_list_state])
+        end
+      end
     end
   end
 
@@ -25,11 +33,7 @@ class EventsController < ApplicationController
       @event.update_state!
     end
 
-    redirect_to event_path(@event)
-  end
-
-  def show
-    @event = Event.find(params[:id])
+    redirect_to events_path
   end
 
   def do_import

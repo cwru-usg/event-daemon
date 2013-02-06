@@ -65,7 +65,7 @@ class Event < ActiveRecord::Base
     end
 
     after_transition :on => :update_state! do |e, t|
-      e.organization.sync_executive_board! unless e.executive_board.present?
+      e.organization.sync_executive_board! unless e.organization.executive_board.present?
 
       case t.to_name
       when :upcoming

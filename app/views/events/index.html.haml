@@ -37,6 +37,10 @@
   }
   #event-table .event {
     cursor: pointer;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
   }
   #event-table .title {
     font-size: 14px;
@@ -91,8 +95,8 @@
       -@events_by_state[s].each do |e|
         %tr.event{ :id => "event-#{e.id}" }
           %td= e.collegiatelink_id
-          %td
-            %b= link_to e.title, e, :class => 'title'
+          %td.title
+            %b #{e.title}
           %td
             -if e.organization
               #{link_to e.organization.name, e.organization}
