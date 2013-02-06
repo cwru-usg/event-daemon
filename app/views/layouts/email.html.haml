@@ -1,3 +1,5 @@
+- if Rails.env != "production"
+  .testing This e-mail was sent from development mode. Please disregard this message.
 %table#header
   %tr
     %td{ :width => '130'}= image_tag 'http://usg.case.edu/events/assets/logo.png', :width => '130', :alt => 'USG Logo'
