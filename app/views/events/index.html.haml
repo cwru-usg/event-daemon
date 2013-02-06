@@ -9,6 +9,24 @@
         $("#event-details-" + id[id.length - 1]).toggle();
       }
     });
+
+    $(".ninja-box").hide();
+
+    $(".ninja").on('click', function(e) {
+      if (Math.random() < 0.08) {
+        e.preventDefault();
+        $(window).scrollTop(0);
+
+        $(".ninja-box").show();
+        $(".ninja-animation").prepend("<img src='#{image_path 'ninja.gif'}?"+Math.random()+"' style='float:right' />");
+        $(".ninja-animation").animate({ left: 0 }, 4000, function() {
+          $(".ninja-box").fadeOut(500, function() {
+            window.location = e.target.href;
+          });
+          $(".ninja-animation").html('');
+        });
+      }
+    });
   });
 :css
   #event-table, #event-table tr {
@@ -38,6 +56,25 @@
     background-color: rgba(0,0,0,0.3);
     color: #666;
   }
+  .ninja-box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 3;
+  }
+  .ninja-animation {
+    height: 150px;
+    background-color: #33333D;
+    position: absolute;
+    top: 30%;
+    left: -100%;
+    width: 100%;
+  }
+.ninja-box
+  .ninja-animation
 %h2
   Filter Events:
   =select_tag :state, options_for_select([['All Events', ''], ['Todo Events', 'todo']] + Event.states.map{|s| [Event.state_descriptions[s], s]}, params[:state]), :onchange => "javascript:window.location=\"#{events_path}/\"+this.value;"
@@ -76,7 +113,7 @@
               =e.to_s(:desired_state)
               %br
               =link_to 'Update Event State', update_state_event_path(e), :class => 'btn'
-              =link_to 'Ninja Update Event State', update_state_event_path(e, :ninja => 'true'), :class => 'btn'
+              =link_to 'Ninja Update Event State', update_state_event_path(e, :ninja => 'true'), :class => 'btn ninja'
           %td
             -if e.organization
               -e.organization.exec_positions.each do |position|
