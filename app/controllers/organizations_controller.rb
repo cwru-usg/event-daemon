@@ -24,7 +24,6 @@ class OrganizationsController < ApplicationController
   def sync_exec
     @org = Organization.find(params[:id])
     @org.sync_executive_board!
-
-    redirect_to organization_path(@org)
+    render :partial => "events/exec_list", :locals => { :organization => @org }
   end
 end

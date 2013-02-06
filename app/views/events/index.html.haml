@@ -118,10 +118,8 @@
               %br
               =link_to 'Update Event State', update_state_event_path(e), :class => 'btn'
               =link_to 'Ninja Update Event State', update_state_event_path(e, :ninja => 'true'), :class => 'btn ninja'
-          %td
+          %td{ :id => "exec-board-#{e.organization_id}" }
             -if e.organization
-              -e.organization.exec_positions.each do |position|
-                %b #{position.name}:
-                #{position.user.firstname} #{position.user.lastname}
-                %br
-              =link_to 'Sync Executive Board', sync_exec_organization_path(e.organization), :class => 'btn'
+              =render 'exec_list', :organization => e.organization
+              =link_to 'Sync Executive Board', sync_exec_organization_path(e.organization),
+                :class => 'btn', :remote => true, :'data-replace' => "#exec-board-#{e.organization_id}"
