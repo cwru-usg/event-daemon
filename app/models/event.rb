@@ -41,6 +41,7 @@ class Event < ActiveRecord::Base
 
     event :confirm do
       # The executive board has confirmed their event
+      # TODO: Is this a thing?
     end
 
     event :cancel do

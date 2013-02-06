@@ -114,6 +114,7 @@
             - if e.state_name == :disbursement_done
               %br
               =link_to 'Reclaim Funds', reclaim_funds_event_url(e), :class => 'btn'
+              =link_to 'Cancel Event', cancel_event_url(e), :class => 'btn'
             - elsif e.desired_state != e.state_name
               %br
               %b Desired State:
