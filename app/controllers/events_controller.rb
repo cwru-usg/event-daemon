@@ -12,13 +12,7 @@ class EventsController < ApplicationController
         @events = @events.keep_if {|e| e.state == params[:state] }
       end
 
-      session[:event_list_state] = params[:state]
-    else
-      if session[:event_list_state]
-        if params[:state] != session[:event_list_state]
-          redirect_to event_state_path(session[:event_list_state])
-        end
-      end
+      session[:last_event_index_state] = params[:state]
     end
   end
 
@@ -33,7 +27,7 @@ class EventsController < ApplicationController
       @event.update_state!
     end
 
-    redirect_to events_path
+    redirect_to event_state_path(session[:last_event_index_state])
   end
 
   def do_import
