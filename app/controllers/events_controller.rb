@@ -59,7 +59,7 @@ class EventsController < ApplicationController
       event = Event.where(:collegiatelink_id => e['Event ID']).first_or_initialize(
         :starts => starts,
         :ends => ends,
-        :title => e['Event Title'],
+        :title => e['Event Title'].force_encoding('utf-8'),
       )
       event.organization = org if org
 
