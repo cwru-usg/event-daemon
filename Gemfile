@@ -5,6 +5,7 @@ gem 'haml'
 gem 'sass'
 gem 'state_machine'
 gem 'premailer-rails3'
+gem 'airbrake'
 
 gem 'collegiatelink'
 

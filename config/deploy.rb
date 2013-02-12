@@ -47,3 +47,6 @@ end
 after 'deploy', 'deploy:assets:precompile'
 after 'deploy:create_symlink', 'deploy:config_symlink'
 after 'deploy:config_symlink', 'deploy:migrate'
+
+require './config/boot'
+require 'airbrake/capistrano'
