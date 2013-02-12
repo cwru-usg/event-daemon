@@ -50,11 +50,11 @@ class Event < ActiveRecord::Base
     end
 
     event :update_state! do
-      transition :unknown => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
-      transition :upcoming => :happening, :if => lambda { |e| e.desired_state == :happening }
-      transition :happening => :happened, :if => lambda { |e| e.desired_state == :happened }
-      transition :happened => :disbursement_wait, :if => lambda { |e| e.desired_state == :disbursement_wait }
-      transition :disbursement_wait => :disbursement_done, :if => lambda { |e| e.desired_state == :disbursement_done }
+      transition all => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
+      transition all => :happening, :if => lambda { |e| e.desired_state == :happening }
+      transition all => :happened, :if => lambda { |e| e.desired_state == :happened }
+      transition all => :disbursement_wait, :if => lambda { |e| e.desired_state == :disbursement_wait }
+      transition all => :disbursement_done, :if => lambda { |e| e.desired_state == :disbursement_done }
     end
 
     event :load_state! do
