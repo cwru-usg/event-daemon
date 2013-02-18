@@ -1,6 +1,6 @@
 class EventMailer < ActionMailer::Base
   default :from => 'USG VP of Finance <usg-vpfinance@case.edu>',
-    :cc => 'USG Finance Team <usgfinanceteam@case.edu>'
+    :cc => 'USG Finance Events Team <usg-financeevents@case.edu>'
   layout 'email'
 
   def two_weeks_out(event)
