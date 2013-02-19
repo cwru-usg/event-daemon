@@ -1,3 +1,6 @@
+-if organization.exec_positions.empty?
+  %b Unknown Exec Board
+  %p{ :style => 'font-style: italic;' } (will be synchronized when an email is sent)
 -organization.exec_positions.each do |position|
   %b #{position.name}:
   #{position.user.firstname} #{position.user.lastname}

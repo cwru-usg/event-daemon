@@ -128,5 +128,3 @@
           %td{ :id => "exec-board-#{e.organization_id}" }
             -if e.organization
               =render 'exec_list', :organization => e.organization
-              =link_to 'Sync Executive Board', sync_exec_organization_path(e.organization),
-                :class => 'btn', :remote => true, :'data-replace' => "#exec-board-#{e.organization_id}"

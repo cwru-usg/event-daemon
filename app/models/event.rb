@@ -70,7 +70,7 @@ class Event < ActiveRecord::Base
     end
 
     after_transition :on => :update_state! do |e, t|
-      e.organization.sync_executive_board! unless e.organization.executive_board.present?
+      e.organization.sync_executive_board!
 
       case t.to_name
       when :upcoming
@@ -83,7 +83,7 @@ class Event < ActiveRecord::Base
     end
 
     after_transition :on => :reclaim_funds! do |e, t|
-      e.organization.sync_executive_board! unless e.organization.executive_board.present?
+      e.organization.sync_executive_board!
 
       EventMailer.funds_reclaimed(e).deliver
     end
