@@ -7,7 +7,7 @@ gem 'state_machine'
 gem 'premailer-rails3'
 gem 'airbrake'
 
-gem 'collegiatelink'
+gem 'collegiatelink', '~> 0.0.5'
 
 gem 'rubycas-client'
 

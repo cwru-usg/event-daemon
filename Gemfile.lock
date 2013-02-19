@@ -48,7 +48,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.4.0)
-    collegiatelink (0.0.4)
+    collegiatelink (0.0.5)
       guid
       happymapper
       net-ssh
@@ -80,7 +80,7 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.7.6)
     libv8 (3.11.8.13)
-    libxml-ruby (2.4.0)
+    libxml-ruby (2.6.0)
     mail (2.4.4)
       i18n (>= 0.4.0)
       mime-types (~> 1.16)
@@ -179,7 +179,7 @@ DEPENDENCIES
   airbrake
   capistrano
   coffee-rails (~> 3.2.1)
-  collegiatelink
+  collegiatelink (~> 0.0.5)
   factory_girl_rails (~> 4.0)
   haml
   jquery-rails
