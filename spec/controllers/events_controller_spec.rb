@@ -9,7 +9,7 @@ describe EventsController do
     let!(:event1) { FactoryGirl.build(:event, :organization => org) }
     let!(:event2) { FactoryGirl.build(:event, :organization => org) }
 
-    let(:csv_data) { 
+    let(:csv_data) {
       [
         # Two offset rows, because CollegiateLink gives us them! How generous!
         'All Events',
@@ -57,6 +57,7 @@ describe EventsController do
       controller.stubs(:params).returns(
         :import => { :csv => stub(:read => csv_data) }
       )
+      controller.stubs(:session => { :cas_user => FactoryGirl.create(:finance_team_user).username })
 
       post :do_import
     end
