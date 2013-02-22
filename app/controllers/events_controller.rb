@@ -63,10 +63,11 @@ class EventsController < ApplicationController
       if event.starts != starts || event.ends != ends
         event.starts = starts
         event.ends = ends
+        event.save
         event.load_state!
+      else
+        event.save
       end
-
-      event.save
     end
 
     redirect_to :events
