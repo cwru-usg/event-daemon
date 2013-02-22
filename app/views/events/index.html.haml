@@ -85,6 +85,12 @@
 %h2
   Filter Events:
   =select_tag :state, options_for_select([['All Events', ''], ['Todo Events', 'todo']] + Event.all_states.map{|s| [Event.state_descriptions[s], s]}, params[:state]), :onchange => "javascript:window.location=\"#{events_path}/\"+this.value;"
+-if params[:state] == 'todo' && @num_to_reclaim > 0
+  %h3
+    Also:
+    =link_to event_state_path(:disbursement_done) do
+      #{@num_to_reclaim} events to reclaim funding from!
+
 %table#event-table
   %thead
     %th{ :width => '100'} Event ID

@@ -4,7 +4,8 @@ class ApplicationController < ActionController::Base
   before_filter :setup
 
   def setup
-    @num_to_do = Event.need_attention.count
+    @num_wrong_state = Event.need_attention.count
+    @num_to_reclaim = Event.where(:state => :disbursement_done).count
     @logged_in_user = (session[:cas_user].present?) ? User.where(:username => session[:cas_user]).first_or_create : nil
   end
 
