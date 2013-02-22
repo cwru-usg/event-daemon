@@ -38,25 +38,20 @@
   #event-table a {
     color: #111;
   }
-  #event-table .event {
-    cursor: pointer;
-    -moz-user-select: none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    user-select: none;
-  }
   #event-table .title {
     font-size: 14px;
+  }
+  #event-table .organization {
+    font-size: 10px;
   }
   .btn {
     display: inline-block;
     font-size: 14px;
-    line-height: 2.5em;
+    line-height: 1.3em;
     background-color: rgba(0,0,0,0.1);
     padding: 10px 15px;
     border-radius: 5px;
     text-decoration: none;
-    margin-top: 10px;
     color: #000;
   }
   .btn:hover {
@@ -93,25 +88,34 @@
 
 %table#event-table
   %thead
-    %th{ :width => '100'} Event ID
     %th Title
-    %th{ :width => '300'} Organization
+    %th{ :width => '200'} Organization
   %tbody
     -@events_by_state = Hash.new([]).merge(@events.group_by { |e| e.state_name })
     -@events_by_state.each do |s, event_list|
       %tr
-        %th{ :colspan => 5 }= Event.state_descriptions[s]
-      -event_list.each do |e|
+        %th{ :colspan => 4 }= Event.state_descriptions[s]
+      - event_list.each do |e|
         %tr.event{ :id => "event-#{e.id}" }
-          %td= e.collegiatelink_id
           %td.title
             %b #{e.title}
-          %td
+            %br
             -if e.organization
-              #{link_to e.organization.name, e.organization}
+              .organization
+                by
+                #{link_to e.organization.name, e.organization}
+          %td
+            - if e.state_name == :disbursement_done
+              =link_to 'Reclaim', reclaim_funds_event_url(e), :class => 'btn'
+              =link_to 'Cancel', cancel_event_url(e), :class => 'btn'
+            - elsif e.desired_state != e.state_name
+              =link_to 'Update', update_state_event_path(e), :class => 'btn'
+              =link_to 'Ninja', update_state_event_path(e, :ninja => 'true'), :class => 'btn ninja'
         %tr.detail{ :id => "event-details-#{e.id}" }
           %td
-          %td
+            %b Event ID:
+            =e.collegiatelink_id
+            %br
             %b Starts:
             =e.to_s(:starts)
             %br
@@ -120,17 +124,8 @@
             %br
             %b State:
             =e.to_s(:state)
-            - if e.state_name == :disbursement_done
-              %br
-              =link_to 'Reclaim Funds', reclaim_funds_event_url(e), :class => 'btn'
-              =link_to 'Cancel Event', cancel_event_url(e), :class => 'btn'
-            - elsif e.desired_state != e.state_name
-              %br
-              %b Desired State:
-              =e.to_s(:desired_state)
-              %br
-              =link_to 'Update Event State', update_state_event_path(e), :class => 'btn'
-              =link_to 'Ninja Update Event State', update_state_event_path(e, :ninja => 'true'), :class => 'btn ninja'
+            %b Desired State:
+            =e.to_s(:desired_state)
           %td{ :id => "exec-board-#{e.organization_id}" }
             -if e.organization
               =render 'exec_list', :organization => e.organization
