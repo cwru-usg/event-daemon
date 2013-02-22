@@ -56,15 +56,17 @@ class EventsController < ApplicationController
 
       org = Organization.where(:name => e['Organization']).first
 
-      event = Event.where(:collegiatelink_id => e['Event ID']).first_or_initialize(
-        :starts => starts,
-        :ends => ends,
-        :title => e['Event Title'].force_encoding('utf-8'),
-      )
+      event = Event.where(:collegiatelink_id => e['Event ID']).first_or_initialize
+      event.title = e['Event Title'].force_encoding('utf-8')
       event.organization = org if org
 
+      if event.starts != starts || event.ends != ends
+        event.starts = starts
+        event.ends = ends
+        event.load_state!
+      end
+
       event.save
-      event.load_state!
     end
 
     redirect_to :events
