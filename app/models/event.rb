@@ -2,6 +2,8 @@ class Event < ActiveRecord::Base
   attr_accessible :starts, :ends, :title
   belongs_to :organization
 
+  scope :this_semester, lambda { where('starts > ? AND ends < ?', Time.new(2013,1,1), Time.new(2013,6,1)) }
+
   def self.states
     [ :unknown, :upcoming, :happening, :happened, :disbursement_wait, :disbursement_done ]
   end
@@ -25,7 +27,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.need_attention
-    Event.all.keep_if { |x| x.state_name != x.desired_state }
+    Event.this_semester.keep_if { |x| x.state_name != x.desired_state }
   end
 
   # See README.md for descriptions of the states

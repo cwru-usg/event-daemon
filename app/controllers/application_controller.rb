@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
 
   def setup
     @num_wrong_state = Event.need_attention.count
-    @num_to_reclaim = Event.where(:state => :disbursement_done).count
+    @num_to_reclaim = Event.this_semester.where(:state => :disbursement_done).count
     @logged_in_user = (session[:cas_user].present?) ? User.where(:username => session[:cas_user]).first_or_create : nil
   end
 

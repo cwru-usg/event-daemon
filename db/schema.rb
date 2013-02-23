@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130127012832) do
+ActiveRecord::Schema.define(:version => 20130222235724) do
 
   create_table "current_positions", :force => true do |t|
     t.integer "organization_id"
@@ -30,6 +30,10 @@ ActiveRecord::Schema.define(:version => 20130127012832) do
     t.string   "title"
     t.string   "state"
   end
+
+  add_index "events", ["collegiatelink_id"], :name => "index_events_on_collegiatelink_id"
+  add_index "events", ["starts", "ends"], :name => "index_events_on_starts_and_ends"
+  add_index "events", ["state"], :name => "index_events_on_state"
 
   create_table "organizations", :force => true do |t|
     t.integer  "collegiatelink_id"
