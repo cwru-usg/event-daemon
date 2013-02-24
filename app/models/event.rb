@@ -47,6 +47,7 @@ class Event < ActiveRecord::Base
     end
 
     event :update_state! do
+      transition all => :unknown, :if => lambda { |e| e.desired_state == :unknown }
       transition all => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
       transition all => :happening, :if => lambda { |e| e.desired_state == :happening }
       transition all => :happened, :if => lambda { |e| e.desired_state == :happened }
@@ -55,6 +56,7 @@ class Event < ActiveRecord::Base
     end
 
     event :load_state! do
+      transition all => :unknown, :if => lambda { |e| e.desired_state == :unknown }
       transition all => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
       transition all => :happening, :if => lambda { |e| e.desired_state == :happening }
       transition all => :happened, :if => lambda { |e| e.desired_state == :happened }
