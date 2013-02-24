@@ -58,11 +58,13 @@ class EventsController < ApplicationController
 
       event = Event.where(:collegiatelink_id => e['Event ID']).first_or_initialize
       event.title = e['Event Title'].force_encoding('utf-8')
+      just_canceled = (e['Status'] == 'Canceled')
       event.organization = org if org
 
-      if event.starts != starts || event.ends != ends
+      if event.starts != starts || event.ends != ends || event.canceled != just_canceled
         event.starts = starts
         event.ends = ends
+        event.canceled = just_canceled
         event.save
         event.load_state!
       else

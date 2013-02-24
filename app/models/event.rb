@@ -46,11 +46,6 @@ class Event < ActiveRecord::Base
       # TODO: Is this a thing?
     end
 
-    event :cancel do
-      # A member of the executive board (or Finance) has cancelled their event
-      transition all - [ :funds_reclaimed ] => :cancelled
-    end
-
     event :update_state! do
       transition all => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
       transition all => :happening, :if => lambda { |e| e.desired_state == :happening }
@@ -94,7 +89,7 @@ class Event < ActiveRecord::Base
   def desired_state
     return state_name if [ :cancelled, :funds_reclaimed ].include?(state_name)
 
-    return :disbursement_done if ended_more_than_two_weeks_ago?
+    return :disbursement_done if ended_more_than_two_weeks_ago? || canceled
     return :disbursement_wait if ended_more_than_a_week_ago?
     return :unknown if more_than_two_weeks_in_future?
     return :happened if happened? || (happened? && !ended_more_than_a_week_ago?)

@@ -25,6 +25,7 @@ describe EventsController do
           'Event Type',
           'Event Title',
           'Organization',
+          'Status',
         ].join(','),
 
         # Data Row 1
@@ -37,6 +38,7 @@ describe EventsController do
           'Public',
           event1.title,
           org.name,
+          'Approved',
         ].join(','),
 
         # Data Row 2
@@ -49,6 +51,7 @@ describe EventsController do
           'Public',
           event2.title,
           org.name,
+          'Canceled',
         ].join(','),
       ].join("\n")
     }
@@ -90,7 +93,15 @@ describe EventsController do
         Event.where(:collegiatelink_id => event1.collegiatelink_id).first.
           organization.should == org
       end
+
+      it 'sets the canceled boolean appropriately' do
+        Event.where(:collegiatelink_id => event1.collegiatelink_id).first.
+          canceled.should be_false
+        Event.where(:collegiatelink_id => event2.collegiatelink_id).first.
+          canceled.should be_true
+      end
     end
+
     context 'with an event with the same date' do
       let!(:old_title) { event1.title }
 
@@ -107,7 +118,12 @@ describe EventsController do
       end
 
       it "should not load the event's state" do
-        Event.any_instance.expects(:load_state!).never
+        # TODO: This is a bit janky, it is because it is appropriate to call
+        # load_state! on the cancelled event, but not the first event, so we
+        # should actually expect load_state! exactly once.
+        Event.any_instance.expects(:load_state!).times(1)
+
+        post 'do_import'
       end
     end
 
@@ -132,8 +148,7 @@ describe EventsController do
       end
 
       it "should load the event's state" do
-        event1.expects(:load_state!)
-        Event.stubs(:where => stub(:first_or_initialize => event1, :count => 0))
+        Event.any_instance.expects(:load_state!).times(2)
 
         post 'do_import'
       end

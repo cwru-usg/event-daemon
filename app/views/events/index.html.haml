@@ -44,6 +44,9 @@
   #event-table .organization {
     font-size: 10px;
   }
+  #event-table .canceled {
+    color: #f00;
+  }
   .btn {
     display: inline-block;
     font-size: 14px;
@@ -98,7 +101,10 @@
       - event_list.each do |e|
         %tr.event{ :id => "event-#{e.id}" }
           %td.title
-            %b #{e.title}
+            %b
+              -if e.canceled
+                %span.canceled CANCELED
+              #{e.title}
             %br
             -if e.organization
               .organization
