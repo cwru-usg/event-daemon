@@ -108,13 +108,13 @@
             %b
               -if e.canceled
                 %span.canceled CANCELED
-              #{e.title}
+              = e.title
             -if e.error.present?
               .error= e.error
             -if e.organization
               .organization
                 by
-                #{link_to e.organization.name, e.organization}
+                =link_to e.organization.name, e.organization.collegiatelink_url
           %td
             - if e.desired_state != e.state_name && e.state_name != :error
               =link_to 'Update', update_state_event_path(e), :class => 'btn'

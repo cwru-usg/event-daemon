@@ -15,6 +15,7 @@ class OrganizationsController < ApplicationController
         :name => org.name,
         :short_name => org.shortName,
         :status => org.status,
+        :collegiatelink_url => org.siteUrl.sub('casewestern.collegiatelink.net', 'spartanlink.case.edu'),
       )
     end
 

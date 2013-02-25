@@ -1,5 +1,5 @@
 class Organization < ActiveRecord::Base
-  attr_accessible :name, :short_name, :status
+  attr_accessible :name, :short_name, :status, :collegiatelink_url
   has_many :events
   has_many :exec_positions, :class_name => CurrentPosition
   has_many :exec_members, :through => :exec_positions, :source => :user
