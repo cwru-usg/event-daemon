@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.all_states
-    Event.states + [ :cancelled, :funds_reclaimed ]
+    Event.states + [ :cancelled, :funds_reclaimed, :error ]
   end
 
   def self.state_descriptions
@@ -23,6 +23,7 @@ class Event < ActiveRecord::Base
       :disbursement_done => 'Past Disbursement Window',
       :cancelled => 'Event Cancelled',
       :funds_reclaimed => 'Funds Reclaimed!',
+      :error => 'Event State Error!',
     }.with_indifferent_access
   end
 
@@ -40,18 +41,23 @@ class Event < ActiveRecord::Base
     state :disbursement_done
     state :cancelled
     state :funds_reclaimed
+    state :error
 
     event :confirm do
       # The executive board has confirmed their event
       # TODO: Is this a thing?
     end
 
+    event :cancel do
+      transition all => :cancelled
+    end
+
     event :update_state! do
-      transition all => :unknown, :if => lambda { |e| e.desired_state == :unknown }
-      transition all => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
-      transition all => :happening, :if => lambda { |e| e.desired_state == :happening }
-      transition all => :happened, :if => lambda { |e| e.desired_state == :happened }
-      transition all => :disbursement_wait, :if => lambda { |e| e.desired_state == :disbursement_wait }
+      transition [:unknown, :upcoming, :happening] => :unknown, :if => lambda { |e| e.desired_state == :unknown }
+      transition [:unknown, :upcoming, :happening] => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
+      transition [:unknown, :upcoming, :happening] => :happening, :if => lambda { |e| e.desired_state == :happening }
+      transition [:unknown, :upcoming, :happening] => :happened, :if => lambda { |e| e.desired_state == :happened }
+      transition [:unknown, :upcoming, :happening, :happened] => :disbursement_wait, :if => lambda { |e| e.desired_state == :disbursement_wait }
       transition all => :disbursement_done, :if => lambda { |e| e.desired_state == :disbursement_done }
     end
 
@@ -68,6 +74,10 @@ class Event < ActiveRecord::Base
       transition all => :funds_reclaimed
     end
 
+    event :require_custom_email! do
+      transition all => :error
+    end
+
     after_transition :on => :update_state! do |e, t|
       e.organization.sync_executive_board!
 
@@ -79,6 +89,12 @@ class Event < ActiveRecord::Base
       when :disbursement_wait
         EventMailer.one_week_after(e).deliver
       end
+    end
+
+    after_failure :on => :update_state! do |e, t|
+      e.update_attribute(:error, "Cannot transition from \"#{Event.state_descriptions[t.from_name]}\" to \"#{Event.state_descriptions[e.desired_state]}\"!")
+      e.require_custom_email!
+      e.organization.sync_executive_board! if e.organization
     end
 
     after_transition :on => :reclaim_funds! do |e, t|

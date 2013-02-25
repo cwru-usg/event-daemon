@@ -47,6 +47,10 @@
   #event-table .canceled {
     color: #f00;
   }
+  #event-table .error {
+    font-size: 12px;
+    color: #f00;
+  }
   .btn {
     display: inline-block;
     font-size: 14px;
@@ -105,18 +109,19 @@
               -if e.canceled
                 %span.canceled CANCELED
               #{e.title}
-            %br
+            -if e.error.present?
+              .error= e.error
             -if e.organization
               .organization
                 by
                 #{link_to e.organization.name, e.organization}
           %td
-            - if e.state_name == :disbursement_done
-              =link_to 'Reclaim', reclaim_funds_event_url(e), :class => 'btn'
-              =link_to 'Cancel', cancel_event_url(e), :class => 'btn'
-            - elsif e.desired_state != e.state_name
+            - if e.desired_state != e.state_name && e.state_name != :error
               =link_to 'Update', update_state_event_path(e), :class => 'btn'
               =link_to 'Ninja', update_state_event_path(e, :ninja => 'true'), :class => 'btn ninja'
+            - elsif e.state_name == :disbursement_done || e.state_name == :error
+              =link_to 'Reclaim', reclaim_funds_event_url(e), :class => 'btn'
+              =link_to 'Cancel', cancel_event_url(e), :class => 'btn'
         %tr.detail{ :id => "event-details-#{e.id}" }
           %td
             %b Event ID:
