@@ -11,12 +11,18 @@
   SpartanLink so we can return the funding to other groups. If you would like
   to reallocate funding from this event to another event, we ask that you cancel
   this event and
-  = link_to 'apply for Rolling Funding', "#{@event.organization.collegiatelink_url}Finance/CreateFundingRequest"
+  - if @event.organization.collegiatelink_url.present?
+    = link_to 'apply for Rolling Funding', "#{@event.organization.collegiatelink_url}Finance/CreateFundingRequest"
+  - else
+    apply for Rolling Funding
   for the other event.
 %p
   To make any changes to your event, or to cancel it:
 %ol
-  %li Go to #{link_to "your organization's page on SpartanLink", @event.organization.collegiatelink_url} and log in
+  - if @event.organization.collegiatelink_url.present?
+    %li Go to #{link_to "your organization's page on SpartanLink", @event.organization.collegiatelink_url} and log in
+  - else
+    %li Go to your organization's page #{link_to "on SpartanLink", 'https://spartanlink.case.edu'} and log in
   %li Click on "Events" in the left hand column
   %li Click on the corresponding event
   %li Click "Change" or "Cancel" and fill out the following information
@@ -27,4 +33,5 @@
 %p
   Please do not hesitate to email the USG VP of Finance, Colin Williams
   (#{mail_to 'usg-vpfinance@case.edu'}), your organization's USG Treasurer
-  (#{mail_to 'lap80@case.edu', 'Laura Payne'} or #{mail_to 'ler52@case.edu', 'Levi Ridgeway'}) with any questions.
+  (#{mail_to 'lap80@case.edu', 'Laura Payne'} or #{mail_to 'ler52@case.edu', 'Levi Ridgeway'}) with any questions. For more information, read
+  = link_to 'the USG news post detailing the new Dynamic Rolling Funding procedure.', 'https://spartanlink.case.edu/organization/usg/news/details/20951'
