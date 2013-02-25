@@ -5,6 +5,7 @@ class EventMailer < ActionMailer::Base
 
   def two_weeks_out(event)
     @event = event
+    @event.organization.sync_executive_board!
 
     mail(:to => event.organization.executive_board.map(&:to_email).join(','),
          :subject => "#{@event.organization.name} Event: #{@event.title}")
@@ -12,6 +13,7 @@ class EventMailer < ActionMailer::Base
 
   def one_day_out(event)
     @event = event
+    @event.organization.sync_executive_board!
 
     mail(:to => event.organization.executive_board.map(&:to_email).join(','),
          :subject => "#{@event.organization.name} Event: #{@event.title}")
@@ -19,6 +21,7 @@ class EventMailer < ActionMailer::Base
 
   def one_week_after(event)
     @event = event
+    @event.organization.sync_executive_board!
 
     mail(:to => event.organization.executive_board.map(&:to_email).join(','),
          :subject => "#{@event.organization.name} Event: #{@event.title}")
@@ -26,6 +29,7 @@ class EventMailer < ActionMailer::Base
 
   def funds_reclaimed(event)
     @event = event
+    @event.organization.sync_executive_board!
 
     mail(:to => event.organization.executive_board.map(&:to_email).join(','),
          :subject => "#{@event.organization.name} Event: #{@event.title}")

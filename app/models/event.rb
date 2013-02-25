@@ -52,6 +52,9 @@ class Event < ActiveRecord::Base
       transition all => :cancelled
     end
 
+    # The normal path for an event: following an update_state!, an email will be
+    # sent according to whether it is appropriate as determined by the state
+    # machine.
     event :update_state! do
       transition [:unknown, :upcoming, :happening] => :unknown, :if => lambda { |e| e.desired_state == :unknown }
       transition [:unknown, :upcoming, :happening] => :upcoming, :if => lambda { |e| e.desired_state == :upcoming }
@@ -59,6 +62,22 @@ class Event < ActiveRecord::Base
       transition [:unknown, :upcoming, :happening] => :happened, :if => lambda { |e| e.desired_state == :happened }
       transition [:unknown, :upcoming, :happening, :happened] => :disbursement_wait, :if => lambda { |e| e.desired_state == :disbursement_wait }
       transition all => :disbursement_done, :if => lambda { |e| e.desired_state == :disbursement_done }
+    end
+
+    after_transition :on => :update_state! do |e, t|
+      case t.to_name
+      when :upcoming
+        EventMailer.two_weeks_out(e).deliver
+      when :happening
+        EventMailer.one_day_out(e).deliver
+      when :disbursement_wait
+        EventMailer.one_week_after(e).deliver
+      end
+    end
+
+    after_failure :on => :update_state! do |e, t|
+      e.update_attribute(:error, "Cannot transition from \"#{Event.state_descriptions[t.from_name]}\" to \"#{Event.state_descriptions[e.desired_state]}\"!")
+      e.require_custom_email!
     end
 
     event :load_state! do
@@ -74,38 +93,17 @@ class Event < ActiveRecord::Base
       transition all => :funds_reclaimed
     end
 
+    after_transition :on => :reclaim_funds! do |e, t|
+      EventMailer.funds_reclaimed(e).deliver
+    end
+
     event :require_custom_email! do
       transition all => :error
-    end
-
-    after_transition :on => :update_state! do |e, t|
-      e.organization.sync_executive_board!
-
-      case t.to_name
-      when :upcoming
-        EventMailer.two_weeks_out(e).deliver
-      when :happening
-        EventMailer.one_day_out(e).deliver
-      when :disbursement_wait
-        EventMailer.one_week_after(e).deliver
-      end
-    end
-
-    after_failure :on => :update_state! do |e, t|
-      e.update_attribute(:error, "Cannot transition from \"#{Event.state_descriptions[t.from_name]}\" to \"#{Event.state_descriptions[e.desired_state]}\"!")
-      e.require_custom_email!
-      e.organization.sync_executive_board! if e.organization
-    end
-
-    after_transition :on => :reclaim_funds! do |e, t|
-      e.organization.sync_executive_board!
-
-      EventMailer.funds_reclaimed(e).deliver
     end
   end
 
   def desired_state
-    return state_name if [ :cancelled, :funds_reclaimed ].include?(state_name)
+    return state_name if [ :cancelled, :funds_reclaimed, :error ].include?(state_name)
 
     return :disbursement_done if ended_more_than_two_weeks_ago? || canceled
     return :disbursement_wait if ended_more_than_a_week_ago?
