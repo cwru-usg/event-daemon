@@ -11,7 +11,8 @@
   %br
   The USG Finance Team
 #footer
-  This email sent automatically by USG. If you have received this message in
+  This email was sent automatically by USG. If you have received this message in
   error, please make sure you are not incorrectly listed as an executive member of
-  #{@event.organization.name} on SpartanLink. If you continue to receive these
-  messages in error, please forward the message to ted27@case.edu.
+  = link_to "#{@event.organization.name} on SpartanLink", @event.organization.collegiatelink_url
+  If you continue to receive these messages in error, please forward the message
+  to #{mail_to 'ted27@case.edu'}.

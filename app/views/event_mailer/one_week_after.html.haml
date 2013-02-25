@@ -1,5 +1,19 @@
 %p
   Dear Officers of #{@event.organization.name},
 %p
-  Hi! We hope that "#{@event.title}" was a success!
-  We just wanted to remind you that you have one week left to submit any itemized receipts or other Purchase Requests on SpartanLink. Remember that all requests must be printed out and turned into the brown box in the USG Office. If you need longer for any reason, please contact your group's USG Treasurer to arrange as such before next week.
+  Hi! We hope that your event "#{@event.title}" was a success!
+  We just wanted to remind you that you have until #{@event.ends.to_date + 2.weeks}
+  to submit any itemized receipts or other Purchase Requests on SpartanLink.
+%p
+  You can create a Purchase Request on your organization's SpartanLink page by clicking on "Finance" and then on "Create Purchase Request".
+  = link_to 'Or, click here to be taken to the page.', "#{@event.organization.collegiatelink_url}Finance/CreatePurchaseRequest"
+%p
+  %b
+    Remember that all requests must be first completed online, then printed out
+    and turned in (with the original receipt attached) to the brown box in the
+    USG Office.
+%p
+  Any unspent funds after #{@event.ends.to_date + 2.weeks} may be reallocated to
+  other groups' events, so it is very important to turn in your Purchase
+  Requests on time. If you need longer for any reason, please contact your
+  group's USG Treasurer to arrange as such before next week.
