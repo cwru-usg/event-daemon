@@ -16,6 +16,22 @@ class EventsController < ApplicationController
     end
   end
 
+  def show
+    @event = Event.find(params[:id])
+  end
+
+  def update
+    @event = Event.find(params[:id])
+    @event.state = params[:event][:state]
+    @event.reclaimed_amount = params[:event][:reclaimed_amount].to_f
+    @event.reclaimed_at = Time.now
+    if !@event.save
+      flash[:error] = "Could not perform event surgery :("
+    end
+    redirect_to events_url
+  end
+
+
   def import; end
 
   def update_state

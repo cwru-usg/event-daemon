@@ -1,0 +1,21 @@
+%h2 Event Surgery Mode: #{@event.title}
+%p
+  This mode allows manual editing of attributes for an event. In case events get
+  kicked into the wrong state.
+=form_for @event do |f|
+  %table
+    %tbody
+      %tr
+        %th{ :width => '200' } Event Name
+        %td
+          %b= @event.title
+      %tr
+        %th Event State
+        %td=select_tag 'event[state]', options_for_select(Event.all_states.map{|s| [Event.state_descriptions[s], s.to_s]}, @event.state)
+      %tr
+        %th Canceled on SpartanLink?
+        %td= @event.canceled
+      %tr
+        %th Funds Reclaimed?
+        %td=f.text_field :reclaimed_amount
+  =f.submit 'Save Changes', :class => 'btn'

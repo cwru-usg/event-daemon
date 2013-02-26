@@ -136,6 +136,9 @@
             %br
             %b Desired State:
             =e.to_s(:desired_state)
+            %br
+            %b Danger:
+            =link_to 'Perform Event Surgery', event_url(e)
           %td{ :id => "exec-board-#{e.organization_id}" }
             -if e.organization
               =render 'exec_list', :organization => e.organization
