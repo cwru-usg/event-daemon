@@ -239,6 +239,23 @@ p.form {
 input {
   padding: 6px;
 }
+
+.btn {
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1.3em;
+  background-color: rgba(0,0,0,0.1);
+  padding: 8px 9px;
+  border-radius: 5px;
+  text-decoration: none;
+  color: #000;
+  border: none;
+}
+
+.btn:hover {
+  background-color: rgba(0,0,0,0.3);
+  color: #666;
+}
 /*
  *  Fonts ---------------------------------------------------------------------
  */
