@@ -9,7 +9,7 @@ class Event < ActiveRecord::Base
   end
 
   def self.all_states
-    Event.states + [ :cancelled, :funds_reclaimed, :error ]
+    Event.states + [ :canceled, :funds_reclaimed, :error ]
   end
 
   def self.state_descriptions
@@ -21,7 +21,7 @@ class Event < ActiveRecord::Base
       :happened => 'Just Ended (ended less than 7 days ago)',
       :disbursement_wait => 'In Disbursement Window',
       :disbursement_done => 'Past Disbursement Window',
-      :cancelled => 'Event Cancelled',
+      :canceled => 'Event Canceled',
       :funds_reclaimed => 'Funds Reclaimed!',
       :error => 'Event State Error!',
     }.with_indifferent_access
@@ -39,7 +39,7 @@ class Event < ActiveRecord::Base
     state :happened
     state :disbursement_wait
     state :disbursement_done
-    state :cancelled
+    state :canceled
     state :funds_reclaimed
     state :error
 
@@ -49,7 +49,7 @@ class Event < ActiveRecord::Base
     end
 
     event :cancel do
-      transition all => :cancelled
+      transition all => :canceled
     end
 
     # The normal path for an event: following an update_state!, an email will be
@@ -103,7 +103,7 @@ class Event < ActiveRecord::Base
   end
 
   def desired_state
-    return state_name if [ :cancelled, :funds_reclaimed, :error ].include?(state_name)
+    return state_name if [ :canceled, :funds_reclaimed, :error ].include?(state_name)
 
     return :disbursement_done if ended_more_than_two_weeks_ago? || canceled
     return :disbursement_wait if ended_more_than_a_week_ago?
