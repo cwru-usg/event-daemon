@@ -3,7 +3,7 @@
     $(".detail").hide();
 
     $("#event-table").on('click', function(e) {
-      if ($(e.target).is('a')) return;
+      if ($(e.target).is('a') || $(e.target).is('input')) return;
       if (($row = $(e.target).parents("tr.event")).length) {
         var id = $row.attr('id').split('-');
         $("#event-details-" + id[id.length - 1]).toggle();
@@ -40,6 +40,9 @@
   }
   #event-table .title {
     font-size: 14px;
+  }
+  #event-table .title .reclaimed {
+    color: #080;
   }
   #event-table .organization {
     font-size: 10px;
@@ -98,6 +101,8 @@
             %b
               -if e.canceled
                 %span.canceled CANCELED
+              -if e.reclaimed_amount.present?
+                %span.reclaimed RECLAIMED $#{e.reclaimed_amount}
               = e.title
             -if e.error.present?
               .error= e.error
@@ -110,8 +115,11 @@
               =link_to 'Update', update_state_event_path(e), :class => 'btn'
               =link_to 'Ninja', update_state_event_path(e, :ninja => 'true'), :class => 'btn ninja'
             - elsif e.state_name == :disbursement_done || e.state_name == :error
-              =link_to 'Reclaim', reclaim_funds_event_url(e), :class => 'btn'
-              =link_to 'Cancel', cancel_event_url(e), :class => 'btn'
+              %form{ :action => reclaim_funds_event_url(e), :method => 'GET' }
+                Reclaim $
+                =text_field_tag 'reclaim_amount', e.reclaimed_amount, :class => 'reclaim-field'
+                =submit_tag 'Reclaim',  :class => 'btn reclaim'
+              =#link_to 'Cancel', cancel_event_url(e), :class => 'btn'
         %tr.detail{ :id => "event-details-#{e.id}" }
           %td
             %b Event ID:

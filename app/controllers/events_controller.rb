@@ -32,6 +32,10 @@ class EventsController < ApplicationController
 
   def reclaim_funds
     @event = Event.find(params[:id])
+    @event.reclaimed_amount = params[:reclaim_amount].to_f
+    @event.reclaimed_at = Time.now
+    @event.save
+
     @event.reclaim_funds!
 
     redirect_to event_state_path(session[:last_event_index_state])
