@@ -16,6 +16,9 @@
         %th Canceled on SpartanLink?
         %td= @event.canceled
       %tr
+        %th Error Text?
+        %td=f.text_field :error
+      %tr
         %th Funds Reclaimed?
         %td=f.text_field :reclaimed_amount
   =f.submit 'Save Changes', :class => 'btn'

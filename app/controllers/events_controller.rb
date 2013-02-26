@@ -24,6 +24,7 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @event.state = params[:event][:state]
     @event.reclaimed_amount = params[:event][:reclaimed_amount].to_f
+    @event.error = params[:event][:error]
     @event.reclaimed_at = Time.now
     if !@event.save
       flash[:error] = "Could not perform event surgery :("
