@@ -10,14 +10,7 @@ class OrganizationsController < ApplicationController
   end
 
   def sync
-    COLLEGIATELINK.organizations(:includehidden => true).each do |org|
-      Organization.where(:collegiatelink_id => org.id).first_or_create.update_attributes(
-        :name => org.name,
-        :short_name => org.shortName,
-        :status => org.status,
-        :collegiatelink_url => org.siteUrl.sub('casewestern.collegiatelink.net', 'spartanlink.case.edu'),
-      )
-    end
+    Organization.sync_from_collegiatelink!
 
     redirect_to :organizations
   end
