@@ -156,4 +156,8 @@ class Event < ActiveRecord::Base
   def happening?
     !happened? && !in_future?
   end
+
+  def up_to_date?
+    Time.now - updated_at < 1.day
+  end
 end
