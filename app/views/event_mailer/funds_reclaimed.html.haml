@@ -1,7 +1,11 @@
 %p
   Dear Officers of #{@event.organization.name},
 %p
-  This is the final email regarding your event, "#{@event.title}" that you held on #{@event.starts.to_date}.
+  This is the final email regarding your event, "#{@event.title}"
+  - if @event.in_future?
+    that was scheduled for #{@event.starts.to_date}
+  - else
+    that you held on #{@event.starts.to_date}.
 %p
   Per the new
   #{link_to 'Dynamic Rolling Funding System', 'https://spartanlink.case.edu/organization/usg/news/details/20951'}, two weeks after the event, any unused or unspent money from this event will be reallocated to other USG student organizations via Rolling Funding. This email signifies that remaining funds (if any) for this event have been reallocated.
