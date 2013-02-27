@@ -38,6 +38,10 @@ class Organization < ActiveRecord::Base
     end
   end
 
+  def up_to_date?
+    Time.now - updated_at < 1.day
+  end
+
   class << self
     def sync_from_collegiatelink!
       COLLEGIATELINK.organizations(:includehidden => true).each do |org|
