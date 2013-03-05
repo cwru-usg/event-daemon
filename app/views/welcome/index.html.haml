@@ -1,11 +1,14 @@
 %h2 Welcome to the USG Dynamic Rolling Funding Reminder System!
 %p
   This website is being used by the USG to manage events for the Dynamic Rolling
-  Funding system.
-%h3 For USG Finance Team Members:
+  Funding system. This website is currently tracking
+  %b= @statistics[:num_events]
+  events and
+  %b= @statistics[:num_organizations]
+  student organizations.
 %p
-  USG Finance Team members should log in.
-%h3 For Student Organization Leaders:
-%p
-  You should receive correspondence via email. However, you are also welcome to
-  log in.
+  Since beginning the Dynamic Rolling Funding program, USG has reallocated
+  %b= number_to_currency(@statistics[:total_reclaimed])
+  from #{@statistics[:total_reclaimed_canceled_events]} cancelled events and
+  from #{@statistics[:total_reclaimed_events]} under-budget events into the
+  Rolling Funding pool.
