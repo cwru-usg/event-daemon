@@ -2,7 +2,9 @@ class Event < ActiveRecord::Base
   attr_accessible :starts, :ends, :title
   belongs_to :organization
 
-  scope :this_semester, lambda { where('starts > ? AND ends < ?', Time.new(2013,1,1), Time.new(2013,6,1)) }
+  cattr_accessor :beginning_of_semester do Time.new(2013, 1, 1) end
+  cattr_accessor :end_of_semester do Time.new(2013, 6, 1) end
+  scope :this_semester, lambda { where('starts > ? AND ends < ?', Event.beginning_of_semester, Event.end_of_semester) }
 
   def self.states
     [ :unknown, :upcoming, :happening, :happened, :disbursement_wait, :disbursement_done ]

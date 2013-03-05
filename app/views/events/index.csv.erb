@@ -1,0 +1,23 @@
+<% csv_headers = [
+  'Event ID',
+  'Event Name',
+  'Event Begins',
+  'Event Ends',
+  'Organization',
+  'Amount Reclaimed',
+  'Reclaimed At',
+  ]
+%>
+<%= CSV.generate(:write_headers => true, :headers => csv_headers) do |csv|
+  @events.keep_if { |e| e.state == 'funds_reclaimed' }.sort_by { |e| e.reclaimed_at || Event.beginning_of_semester }.each do |e|
+    csv << [
+      e.collegiatelink_id,
+      e.title,
+      e.starts,
+      e.ends,
+      e.organization.try(:name),
+      e.reclaimed_amount,
+      e.reclaimed_at
+    ]
+  end
+end %>

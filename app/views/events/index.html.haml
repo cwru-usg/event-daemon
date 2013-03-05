@@ -85,6 +85,10 @@
     Also:
     =link_to event_state_path(:disbursement_done) do
       #{@num_to_reclaim} events to reclaim funding from!
+-if params[:state] == 'funds_reclaimed'
+  %h3
+    Options:
+    =link_to 'Export to CSV', event_state_url(:funds_reclaimed, :format => 'csv')
 
 %table#event-table
   %thead
