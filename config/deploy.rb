@@ -4,7 +4,7 @@ default_run_options[:pty] = true
 ssh_options[:forward_agent] = true
 ssh_options[:keys] = %w(~/.ssh/id_rsa.pub)
 
-set :application, "event-daemon"
+set :application, "usg-event-daemon"
 set :domain,      "usg.case.edu"
 set :repository,  "git://github.com/cwru-usg/event-daemon.git"
 set :use_sudo,    false
