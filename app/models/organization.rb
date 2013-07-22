@@ -19,8 +19,8 @@ class Organization < ActiveRecord::Base
   end
 
   def sync_executive_board!
-    exec = COLLEGIATELINK.roster(collegiatelink_id).uniq { |m| m.id }.keep_if do |member|
-      member.active_positions.keep_if { |pos| Organization.exec_titles.include?(pos.name) }.present?
+    exec = COLLEGIATELINK.roster(collegiatelink_id).select(&:current?).keep_if do |member|
+      Organization.exec_titles.include?(member.positionName)
     end
 
     self.exec_positions.destroy_all
@@ -28,12 +28,12 @@ class Organization < ActiveRecord::Base
     self.exec_positions = exec.map do |member|
       self.exec_positions.create(
         :user => User.where(:username => member.username).first_or_create(
-          :collegiatelink_id => member.id,
-          :firstname => member.firstname,
-          :lastname => member.lastname,
-          :campusemail => member.campusemail,
+          :collegiatelink_id => member.userId,
+          :firstname => member.userFirstName,
+          :lastname => member.userLastName,
+          :campusemail => member.userCampusEmail,
         ),
-        :name => member.active_positions.keep_if { |pos| exec_titles.include?(pos.name) }.map(&:name).join(", ")
+        :name => member.positionName,
       )
     end
   end
@@ -44,12 +44,12 @@ class Organization < ActiveRecord::Base
 
   class << self
     def sync_from_collegiatelink!
-      COLLEGIATELINK.organizations(:includehidden => true).each do |org|
-        Organization.where(:collegiatelink_id => org.id).first_or_create.update_attributes(
+      COLLEGIATELINK.organizations.each do |org|
+        Organization.where(:collegiatelink_id => org.organizationId).first_or_create.update_attributes(
           :name => org.name,
           :short_name => org.shortName,
           :status => org.status,
-          :collegiatelink_url => org.siteUrl.sub('casewestern.collegiatelink.net', 'spartanlink.case.edu'),
+          :collegiatelink_url => org.profileUrl.sub('casewestern.collegiatelink.net', 'spartanlink.case.edu'),
         )
       end
     end
