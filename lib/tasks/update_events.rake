@@ -19,13 +19,13 @@ namespace :usg do
       ev.organization = org if org
 
       if ev.starts != starts || ev.ends != ends || ev.canceled != just_canceled
-        event.starts = starts
-        event.ends = ends
-        event.canceled = just_canceled
-        event.save
-        event.load_state!
+        ev.starts = starts
+        ev.ends = ends
+        ev.canceled = just_canceled
+        ev.save
+        ev.load_state!
       else
-        event.save
+        ev.save
       end
     end
   end
