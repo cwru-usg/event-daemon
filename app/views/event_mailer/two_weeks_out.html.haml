@@ -8,7 +8,7 @@
     You may change any information about your event (including its date) any
     time before the event starts.
   If your event is not going to happen, we ask that you cancel your event on
-  SpartanLink so we can return the funding to other groups. If you would like
+  MyExperience so we can return the funding to other groups. If you would like
   to reallocate funding from this event to another event, we ask that you cancel
   this event and
   - if @event.organization.collegiatelink_url.present?
@@ -20,15 +20,15 @@
   To make any changes to your event, or to cancel it:
 %ol
   - if @event.organization.collegiatelink_url.present?
-    %li Go to #{link_to "your organization's page on SpartanLink", @event.organization.collegiatelink_url} and log in
+    %li Go to #{link_to "your organization's page on MyExperience", @event.organization.collegiatelink_url} and log in
   - else
-    %li Go to your organization's page #{link_to "on SpartanLink", 'https://spartanlink.case.edu'} and log in
+    %li Go to your organization's page #{link_to "on MyExperience", 'https://experience.case.edu'} and log in
   %li Click on "Events" in the left hand column
   %li Click on the corresponding event
   %li Click "Change" or "Cancel" and fill out the following information
 %p
   If you plan to use the P-Card to buy supplies for your event, please submit a
-  Purchase Request on SpartanLink and turn in a printed copy the box in the USG
+  Purchase Request on MyExperience and turn in a printed copy the box in the USG
   Office as soon as possible!
 %p
   Please do not hesitate to email the
@@ -38,4 +38,4 @@
   - USG_TREASURERS.each do |t|
     = mail_to t.userCampusEmail, "#{t.userFirstName} #{t.userLastName}"
   ) with any questions. For more information, read
-  = link_to 'the USG news post detailing the new Dynamic Rolling Funding procedure.', 'https://spartanlink.case.edu/organization/usg/news/details/20951'
+  = link_to 'the USG news post detailing the new Dynamic Rolling Funding procedure.', 'https://experience.case.edu/organization/usg/news/details/20951'

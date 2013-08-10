@@ -3,9 +3,9 @@
 %p
   Hi! We hope that your event "#{@event.title}" was a success!
   We just wanted to remind you that you have until #{@event.ends.to_date + 2.weeks}
-  to submit any itemized receipts or other Purchase Requests on SpartanLink.
+  to submit any itemized receipts or other Purchase Requests on MyExperience.
 %p
-  You can create a Purchase Request on your organization's SpartanLink page by clicking on "Finance" and then on "Create Purchase Request".
+  You can create a Purchase Request on your organization's MyExperience page by clicking on "Finance" and then on "Create Purchase Request".
   = link_to 'Or, click here to be taken to the page.', "#{@event.organization.collegiatelink_url}Finance/CreatePurchaseRequest"
 %p
   %b
@@ -17,4 +17,4 @@
   other groups' events, so it is very important to turn in your Purchase
   Requests on time. If you need longer for any reason, please contact your
   group's USG Treasurer to arrange as such before next week. For more information, read
-  = link_to 'the USG news post detailing the new Dynamic Rolling Funding procedure.', 'https://spartanlink.case.edu/organization/usg/news/details/20951'
+  = link_to 'the USG news post detailing the new Dynamic Rolling Funding procedure.', 'https://experience.case.edu/organization/usg/news/details/20951'

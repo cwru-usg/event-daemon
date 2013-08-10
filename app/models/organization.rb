@@ -48,7 +48,7 @@ class Organization < ActiveRecord::Base
           :name => org.name,
           :short_name => org.shortName,
           :status => org.status,
-          :collegiatelink_url => org.profileUrl.sub('casewestern.collegiatelink.net', 'spartanlink.case.edu'),
+          :collegiatelink_url => org.profileUrl.sub('casewestern.collegiatelink.net', 'experience.case.edu'),
         )
       end
     end

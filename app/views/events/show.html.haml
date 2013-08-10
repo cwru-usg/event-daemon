@@ -13,7 +13,7 @@
         %th Event State
         %td=select_tag 'event[state]', options_for_select(Event.all_states.map{|s| [Event.state_descriptions[s], s.to_s]}, @event.state)
       %tr
-        %th Canceled on SpartanLink?
+        %th Canceled on MyExperience?
         %td= @event.canceled
       %tr
         %th Error Text?
