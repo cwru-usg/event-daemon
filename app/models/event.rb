@@ -115,7 +115,7 @@ class Event < ActiveRecord::Base
     return :upcoming
   end
 
-  def to_s(type)
+  def to_s(type = nil)
     human_fmt = '%A, %-m/%-d @ %l:%M %P'
     case type
     when :starts

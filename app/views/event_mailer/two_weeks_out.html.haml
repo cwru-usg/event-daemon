@@ -31,7 +31,11 @@
   Purchase Request on SpartanLink and turn in a printed copy the box in the USG
   Office as soon as possible!
 %p
-  Please do not hesitate to email the USG VP of Finance, Colin Williams
-  (#{mail_to 'usg-vpfinance@case.edu'}), your organization's USG Treasurer
-  (#{mail_to 'lap80@case.edu', 'Laura Payne'} or #{mail_to 'ler52@case.edu', 'Levi Ridgeway'}) with any questions. For more information, read
+  Please do not hesitate to email the
+  USG VP of Finance, #{USG_VP_FINANCE.userFirstName} #{USG_VP_FINANCE.userLastName}
+  (#{mail_to 'usg-vpfinance@case.edu'}), or your organization's USG Treasurer
+  (
+  - USG_TREASURERS.each do |t|
+    = mail_to t.userCampusEmail, "#{t.userFirstName} #{t.userLastName}"
+  ) with any questions. For more information, read
   = link_to 'the USG news post detailing the new Dynamic Rolling Funding procedure.', 'https://spartanlink.case.edu/organization/usg/news/details/20951'

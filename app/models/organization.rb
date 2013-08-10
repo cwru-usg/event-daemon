@@ -11,7 +11,6 @@ class Organization < ActiveRecord::Base
     when "development"
       [
         User.where(:username => 'ted27').first,
-        User.where(:username => 'cpw23').first,
       ]
     when "production"
       exec_members
