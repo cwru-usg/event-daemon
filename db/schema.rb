@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130226070350) do
+ActiveRecord::Schema.define(:version => 20131008043133) do
 
   create_table "current_positions", :force => true do |t|
     t.integer "organization_id"
@@ -25,13 +25,13 @@ ActiveRecord::Schema.define(:version => 20130226070350) do
     t.integer  "organization_id"
     t.datetime "starts"
     t.datetime "ends"
-    t.datetime "created_at",                           :null => false
-    t.datetime "updated_at",                           :null => false
+    t.datetime "created_at",                                                          :null => false
+    t.datetime "updated_at",                                                          :null => false
     t.string   "title"
     t.string   "state"
-    t.boolean  "canceled",          :default => false
+    t.boolean  "canceled",                                         :default => false
     t.string   "error"
-    t.decimal  "reclaimed_amount"
+    t.decimal  "reclaimed_amount",  :precision => 10, :scale => 2
     t.datetime "reclaimed_at"
   end
 
