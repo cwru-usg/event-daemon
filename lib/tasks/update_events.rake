@@ -29,4 +29,11 @@ namespace :usg do
       end
     end
   end
+
+  desc "Update all events without sending emails"
+  task :update_events_without_email => :environment do
+    Event.need_attention.each do |e|
+      e.load_state!
+    end
+  end
 end
